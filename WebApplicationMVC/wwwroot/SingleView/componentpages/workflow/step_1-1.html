@@ -1,0 +1,150 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+    <link href="https://vjs.zencdn.net/8.0.4/video-js.css" rel="stylesheet" />
+    <script src="https://vjs.zencdn.net/8.0.4/video.min.js"></script>
+    <script src="https://kit.fontawesome.com/a4984d79d1.js" crossorigin="anonymous"></script>
+    <script src="../../js/device.js"></script>
+    <script src="../../js/jquery/blockui.js"></script>
+    <!--<script src="https://malsup.github.io/jquery.blockUI.js"></script>-->
+</head>
+<body>
+    <script>
+
+        function escapeRegExp(string) {
+            return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+        }
+
+        var queryParams = window.location.search.substring(1).split('&');
+        function GetQueryStringVar(_name, _keyvalpairs) {
+            for (var i = 0; i < _keyvalpairs.length; i++) {
+                var _param = _keyvalpairs[i].split('=');
+                console.log('GetQueryStringVar: ' + _param[0].toLowerCase());
+                if (_param[0].toLowerCase() === _name) {
+                    return _param[1];
+                }
+            }
+            return null;
+        }
+
+        var biztalkName = GetQueryStringVar('biztalkname', queryParams);
+        var videoName = GetQueryStringVar('videoname', queryParams);
+        var captionHeader = GetQueryStringVar('captionheader', queryParams);
+        var captionMessage = GetQueryStringVar('captionmessage', queryParams);
+        var calendarLink = GetQueryStringVar('calendarlink', queryParams);
+        var calendarLinkText = GetQueryStringVar('calendarlinktext', queryParams);
+        let state = {};
+        state.videoURL = '';
+        state.insertCompleted = false;
+
+        $(function () {
+            $('#BiztalkName').text(window.atob(biztalkName));
+            $('#CaptionHeader').text(window.atob(captionHeader));
+            $('#CaptionMessage').append(window.atob(captionMessage));
+            //$('#CalendarLink').text(window.atob(calendarLink));
+            state.videoUrl = 'https://displayfiles.blob.core.windows.net/blobs/' + window.atob(videoName);
+
+            var player = videojs('uploaded_video');
+            player.src({
+                preload: 'auto',
+                src: state.videoUrl,
+                type: 'video/mp4'/*video type*/
+            });
+
+            player.play();
+
+            $('#scheduleMeeting').attr('href', window.atob(calendarLink));
+            $('#scheduleMeetingText').text(window.atob(calendarLinkText));
+
+            if (window.innerWidth > 500) {
+                $('#vidtokDialog').innerWidth(500);
+            }
+            else {
+
+            }
+            $('#uploaded_video').innerWidth(`${$('#vidtokModalContent').width() - 32}px`);
+            $('#uploaded_video').innerHeight(`${($('#vidtokModalContent').width() - 32) * .5625}px`);
+        })
+        let device = new Device('createbiztalk_1-1.html');
+
+        function SaveBiztok() {
+            $.blockUI({ message: 'Creating VidTok' });
+            //$('#buttonSaveIcon').removeClass('fa-regular fa-floppy-disk');
+            //$('#buttonSaveIcon').addClass('fa fa-spinner fa-spin fa-fw');
+            //$("#savePostcard").attr("disabled", true);
+            setTimeout(function () {
+                let jObject = {};
+                jObject.correlationId = device.GenerateUUID();
+                jObject.methodName = 'InsertNewBiztok';
+                jObject.biztokName = biztalkName;
+                jObject.videoUrl = state.videoUrl;
+                jObject.captionHeader = captionHeader;
+                jObject.captionMessage = captionMessage;
+                jObject.calendarLinkText = calendarLinkText;
+                jObject.calendarLink = calendarLink;
+
+                let request = jObject;
+                let result = parent.Post2Server(request, "insertNewBiztok").responseText;
+                console.log(`result= ${result}`);
+                $.unblockUI();
+
+                let frameObject = {};
+                frameObject.applicationName = 'createBiztalk_Postcard-3';
+                frameObject.title = 'Share Your VidTok';
+                frameObject.biztalkName = `${window.atob(jObject.biztokName)}`;
+                frameObject.biztalkId = `${result}`;
+                parent.createFrame(frameObject);
+            }, 500);
+        }
+    </script>
+    <!-- Bootstrap Form Input -->
+    <div id="vidtokDialog" class="modal-dialog" style="">
+        <div id="vidtokModalContent" class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title col-12" id="modal-title" style="margin-bottom:0px">
+                    <!--<img style="height:30px" src="../../../app/images/logo.png" />-->
+                    <span id="BiztalkName"></span>
+                </h5>
+            </div>
+            <hr />
+            <div class="modal-body">
+                <div style="padding-left:10px">
+                    <!--Grid column-->
+                    <div id="videoPlayerContainer">
+                        <video id="uploaded_video"
+                               class="video-js"
+                               controls
+                               preload="auto"
+                               poster=""
+                               data-setup="{}">
+                            <source id="mp4Video" src="" type="video/mp4" />
+                            <p class="vjs-no-js">
+                                To view this video please enable JavaScript, and consider upgrading to a
+                                web browser that
+                                <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+                            </p>
+                        </video>
+                    </div>
+                    <h4 id="CaptionHeader" style="margin-top:10px" class="card-title"></h4>
+                    <p id="CaptionMessage" class="card-text"></p>
+                    <a id="scheduleMeeting" target="_blank" href="#" class="btn btn-primary"><span id="scheduleMeetingText"></span></a>
+                </div>
+            </div>
+            <div class="" style="width:100%;text-align:center">
+                <hr />
+                <h4 id="BiztalkName" style="margin-top: 10px; margin-left: 0px;" class="">
+                    Save Biztalk
+                </h4>
+                <button onclick="SaveBiztok()" style="margin-left:0px" id="savePostcard" class="btn btn-success"><i id="buttonSaveIcon" class="fa-regular fa-floppy-disk"></i> Save</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

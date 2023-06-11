@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+    <script src="../../js/jquery/blockui.js"></script>
+</head>
+<body>
+    <script>
+        let state = {};
+        state.videoUrl = '';
+        async function uploadFile() {
+            try {
+                $.blockUI({ message: 'Uploading Video' });
+                let formData = new FormData();
+                formData.append("uploadFile", fileupload.files[0]);
+                const response = await fetch('https://biztalks.azurewebsites.net/api/upload', {
+                    method: "POST",
+                    body: formData
+                });
+                const jsonData = await response.json();
+                if (jsonData.status == 'OK') {
+                    console.log(jsonData.fileName);
+                    state.videoUrl += jsonData.fileName;
+
+                }
+                else {
+
+                }
+                $.unblockUI();
+                $('#upload-button').text('Uploaded');
+            }
+            catch (e) {
+                $.unblockUI();
+                console.log(`error line 39: ${e}`);
+
+            }
+
+        }
+
+
+        function nextStep() {
+            //validate the values
+            if ($('#upload-button').text().toLowerCase() == 'upload') {
+                alert('Please upload your video.');
+                return false;
+            }
+            if ($('#inputBiztalkName').val().toLowerCase() == '') {
+                alert('Please enter a VidTok Name.');
+                return false;
+            }
+            if ($('#inputCaptionHeader').val().toLowerCase() == '') {
+                alert('Please enter a Caption Header.');
+                return false;
+            }
+            if ($('#captionMessage').val().toLowerCase() == '') {
+                alert('Please enter a Caption Message.');
+                return false;
+            }
+            if ($('#calendarLinkText').val().toLowerCase() == '') {
+                alert('Please enter a Link Button Text.');
+                return false;
+            }
+            if ($('#calendarLink').val().toLowerCase() == '') {
+                alert('Please enter a Link Address.');
+                return false;
+            }
+
+            let frameObject = {};
+            frameObject.applicationName = 'createBiztalk_Postcard-2';
+            frameObject.title = 'Preview VidTok';
+            frameObject.biztalkName = `${$('#inputBiztalkName').val()}`;
+            frameObject.videoName = `${state.videoUrl}`;
+            frameObject.captionHeader = `${$('#inputCaptionHeader').val()}`;
+            frameObject.captionMessage = `${$('#captionMessage').val()}`
+            frameObject.calendarLinkText = `${$('#calendarLinkText').val()}`;
+            frameObject.calendarLink = `${$('#calendarLink').val()}`;
+            parent.createFrame(frameObject);
+
+        }
+    </script>
+    <!--video formatting-->
+    <style>
+        .embed-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+        }
+
+            .embed-container iframe, .embed-container object, .embed-container embed {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+    </style>
+    <!--end video formatting-->
+    <!-- Bootstrap Form Input -->
+    <div class="container">
+        <form class="row g-3">
+            <div class="col-12">
+                <label for="inputBiztalkName" class="form-label">Enter VidTok Name </label>
+                <input type="text" class="form-control" id="inputBiztalkName" placeholder="">
+            </div>
+            <div class="col-12">
+                <div id="uploaderContainer">
+                    <input id="fileupload" type="file" name="fileupload" accept="video/*"/>
+                    <button class="btn btn-secondary" type="button" id="upload-button" onclick="uploadFile()">Upload</button>
+                </div>
+            </div>
+            <div class="col-12" id="captionText">
+                <div class="form-group">
+                    <label for="inputCaptionHeader" class="form-label"> Caption Header </label>
+                    <input type="text" class="form-control" id="inputCaptionHeader" placeholder="">
+                </div>
+                <div class="form-group" style="margin-top:10px">
+                    <label for="captionMessage">Caption Message < 155 Chars</label>
+                    <textarea class="form-control" id="captionMessage" rows="4"></textarea>
+                </div>
+                <div class="form-group" style="margin-top:10px">
+                    <label for="calendarLinkText" class="form-label">Enter Link Button Text </label>
+                    <input type="text" class="form-control" id="calendarLinkText" placeholder="">
+                </div>
+                <div class="form-group" style="margin-top:10px">
+                    <label for="calendarLink">Calendar Link</label>
+                    <textarea class="form-control" id="calendarLink" rows="2"></textarea>
+                </div>
+            </div>
+            <button class="btn btn-primary" type="button" id="preview" onclick="nextStep()"> Preview </button>
+        </form>
+    </div>
+</body>
+</html>

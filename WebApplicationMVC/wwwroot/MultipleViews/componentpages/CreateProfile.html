@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="libraries/jQuery-3.6.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link href="libraries/Cerulean.css" rel="stylesheet" />
+</head>
+<body>
+       <div id="moveNext" class="card text-white bg-primary mb-3" style="max-width: 20rem;display:none">
+            <div class="card-header">Header</div>
+            <div class="card-body">
+                <h4 class="card-title">Your Profile has been Successfully Created</h4>
+                <p class="card-text">Now that your profile has been created would you like to login and use your features and functionality.</p>
+                <button onclick="LaunchLogin()" type="button" class="btn btn-primary">Primary</button>
+            </div>
+        </div>
+
+    <form style="padding:20px" id="entryForm" class="col-12">
+        <div class="form-group">
+            <label for="formFirstName">User First Name</label>
+            <input class="form-control" id="formFirstName" placeholder="">
+        </div>
+        <div class="form-group">
+            <label for="formLastName">User Last Name</label>
+            <input class="form-control" id="formLastName" placeholder="">
+        </div>
+        <div class="form-group">
+            <label for="formEmail">Email Address</label>
+            <input type="email" class="form-control" id="formEmail" placeholder="name@example.com">
+        </div>
+        <div class="form-group">
+            <label for="formPassword">Password</label>
+            <input class="form-control" id="formPassword" placeholder="Password">
+        </div>
+        <div class="form-group">
+            <label for="formPasswordConfirm">Confirm Password</label>
+            <input class="form-control" id="formPasswordConfirm" placeholder="Confirm Password">
+        </div>
+        <div class="form-group">
+            <label for="formControlSelectAgeRange">Select Your Age</label>
+            <select class="form-control" id="formControlSelectAgeRange">
+                <option>21-30</option>
+                <option>31-40</option>
+                <option>41-50</option>
+                <option>51-60</option>
+                <option>61-70</option>
+                <option>71-80</option>
+                <option>81-90</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="formControlSelectFocus">Primary Focus Service</label>
+            <select multiple class="form-control" id="formControlSelectFocus">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="formControlDescription">Provide a description about your goals for using our platform.</label>
+            <textarea class="form-control" id="formControlDescription" rows="3"></textarea>
+        </div>
+        <button onclick="saveProfile()" type="button" class="btn btn-primary">Submit</button>
+    </form>
+
+    <script>
+        let dialogName;
+        $(document).ready(function () {
+            let cachedVar = parent.getCachedVar();
+            //alert(cachedVar.id);
+
+            const params = new Proxy(new URLSearchParams(window.location.search), {
+                get: (searchParams, prop) => searchParams.get(prop),
+            });
+            // Get the value of "some_key" in eg "https://example.com/?some_key=some_value"
+            dialogName = params.dialogname; // "some_value"
+        })
+
+        function saveProfile() {
+            let profileObject = {};
+            profileObject.MethodName = "WriteCustomerProfile";
+            profileObject.ReturnType = "bool"
+            profileObject.FirstName = $('#formFirstName').val();
+            profileObject.LastName = $('#formLastName').val();
+            profileObject.Email = $('#formEmail').val();
+            profileObject.Password = $('#formPassword').val();
+            profileObject.AgeRange = $('#formControlSelectAgeRange').val();
+            profileObject.Focus = $('#formControlSelectFocus').val();
+            profileObject.Description = $('#formControlDescription').val();
+            let request = JSON.stringify(profileObject);            
+            parent.showNotificationBar('Save Sent'); 
+            if (parent.Post2Server(request).statusText == 'success') {
+                $('#entryForm').hide();
+                $('#moveNext').show();
+            }
+        }
+
+        function LaunchLogin() {
+            //parent.$(`#${dialogName}`).dialog('close');
+            parent.createWindowPane('memberLogin', 'Member Login');
+            parent.RemoveWindow(dialogName);            
+        }
+
+    </script>
+</body>
+</html>

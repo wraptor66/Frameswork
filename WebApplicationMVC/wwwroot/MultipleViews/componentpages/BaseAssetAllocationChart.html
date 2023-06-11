@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="libraries/jQuery-3.6.js"></script>
+    <script type="text/javascript">
+
+        var iAdvizrsjQ3_queryParams = window.location.search.substring(1).split('&');
+        function GetQueryStringVar(_name, _keyvalpairs) {
+            for (var i = 0; i < _keyvalpairs.length; i++) {
+                var _param = _keyvalpairs[i].split('=');
+                console.log('GetQueryStringVar: ' + _param[0].toLowerCase());
+                if (_param[0].toLowerCase() === _name) {
+                    return _param[1];
+                }
+            }
+            return null;
+        }
+
+        // var modelName = GetQueryStringVar('modelName', iAdvizrsjQ3_queryParams);
+        // Load the Visualization API and the corechart package.
+        google.charts.load('current', { 'packages': ['corechart'] });
+
+        // Set a callback to run when the Google Visualization API is loaded.
+        google.charts.setOnLoadCallback(drawChart);
+
+        // Callback that creates and populates a data table,
+        // instantiates the pie chart, passes in the data and
+        // draws it.
+        function drawChart() {
+            let basemodel = GetQueryStringVar('basemodel', iAdvizrsjQ3_queryParams);
+            let basemodeltrimmed = basemodel.trim();
+            let basemodelcleaned = basemodeltrimmed.replaceAll('%20', ' ')
+            let jsonObjectArray = JSON.parse(parent.getAssetAllocationBaseModels());
+            //alert(jsonObjectArray);
+            let cash = 0;
+            let bonds = 0;
+            let sector = 0;
+            let smallcapstocks = 0;
+            let midcapstocks = 0;
+            let largecapstocks = 0;
+            let foreign = 0;
+
+            $.each(jsonObjectArray, function (key, value) {
+                if (value.ModelName.trim() === basemodelcleaned) {
+                    //alert(value.ModelName);
+                    cash = value.Cash;
+                    bonds = value.FixedIncome;
+                    sector = value.Sector;
+                    smallcapstocks = value.SmallCapStocks;
+                    midcapstocks = value.MidCapStocks;
+                    largecapstocks = value.LargeCapStocks;
+                    foreign = value.Global;
+                }
+                
+                //rows += `<tr><td><button class="btn btn-primary" ` +
+                //    `onclick="parent.createWindowPane('assetAllocationBaseModelChart','${value.ModelName}',null,null,null,` +
+                //    `'${value.ModelName}')" >` +
+                //    `${value.ModelName}</button></td><td>${value.Cash}</td><td>` +
+                //    `${value.FixedIncome}</td><td>${value.Sector}</td><td>` +
+                //    `${value.SmallCapStocks}</td><td>${value.MidCapStocks}</td><td>` +
+                //    `${value.LargeCapStocks}</td><td>${value.Global}</td></tr>`;
+            });
+            // Create the data table.
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Asset Class');
+            data.addColumn('number', 'Allocation');
+            data.addRows([
+                ['Cash', cash],
+                ['Bonds', bonds],
+                ['Sector', sector],
+                ['Small Cap Stocks', smallcapstocks],
+                ['Mid Cap Stocks', midcapstocks],
+                ['Large Cap Stocks', largecapstocks],
+                ['Foreign', foreign]
+            ]);
+
+            // Set chart options
+            var options = {
+                'title': basemodelcleaned,
+                'width': 400,
+                'height': 300
+            };
+
+            // Instantiate and draw our chart, passing in some options.
+            var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+            chart.draw(data, options);
+        }
+
+
+
+    </script>
+</head>
+
+<body>
+    <!--Div that will hold the pie chart-->
+    <div id="chart_div"></div>
+</body>
+</html>

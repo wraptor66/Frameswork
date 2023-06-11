@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4-4.6.0/jq-3.6.0/dt-1.11.5/b-2.2.2/r-2.2.9/datatables.min.css" />
+
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4-4.6.0/jq-3.6.0/dt-1.11.5/b-2.2.2/r-2.2.9/datatables.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable(
+                { responsive: true });
+        });
+    </script>
+
+    <table style="padding:20px" id="example" class="table table-striped dt-responsive nowrap" style="width:100%">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Manager</th>
+                <th>Focus</th>
+                <th>Start date</th>
+                <th>Keywords</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><a style="cursor:pointer;color:blue" onclick="event.preventDefault(); showBiztalk('20');">Example Portfolio #1</a></td>
+                <td>ABC Investment</td>
+                <td>Targeting Investments that are less sensitive to changes in Inflation</td>
+                <td>2018/04/25</td>
+                <td>Inflation Capital Preservation Investments</td>
+            </tr>
+            <tr>
+                <td><a style="cursor:pointer;color:blue" onclick="event.preventDefault(); showBiztalk('18');">Example Portfolio #2</a></td>
+                <td>DEF Investment</td>
+                <td>Targeting Investments that Maximize Capital Appreciation</td>
+                <td>2018/04/25</td>
+                <td>Capital Appreciation Preservation Investments</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Name</th>
+                <th>Manager</th>
+                <th>Focus</th>
+                <th>Start date</th>
+                <th>Keywords</th>
+            </tr>
+        </tfoot>
+    </table>
+    <script>
+        function showBiztalk(id) {
+
+            let frameObject = {};
+            frameObject.id = id;
+            frameObject.applicationName = 'showBiztalk';
+            frameObject.title = 'Biztalk';
+            parent.createFrame(frameObject);
+        }
+    </script>
+</body>
+</html>

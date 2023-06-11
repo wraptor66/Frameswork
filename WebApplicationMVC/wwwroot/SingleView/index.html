@@ -1,0 +1,439 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+    <link href="css/bootswatch/materia.css" rel="stylesheet" />
+
+    <script src="https://kit.fontawesome.com/a4984d79d1.js" crossorigin="anonymous"></script>
+    <script src="js/device.js?ver"></script>
+    <script src="js/frame.js"></script>
+    <script src="js/frames.js"></script>
+    <script src="js/jquery/blockui.js"></script>
+</head>
+<body style=" background-image: url('content/images/vectorstock_bg.png'); background-size: auto;">
+    <style>
+        .Z0 {
+            z-index: 0;
+        }
+
+        .Z5 {
+            z-index: 5;
+        }
+
+        .Z10 {
+            z-index: 10;
+        }
+
+        .Z15 {
+            z-index: 15;
+        }
+
+        .Z20 {
+            z-index: 20;
+        }
+
+        .Z1001 {
+            z-index: 1001;
+        }
+
+        .Z1002 {
+            z-index: 1002;
+        }
+
+        body {
+            font-family: 'Roboto', serif;
+            font-size: 24px;
+        }
+
+        .moveTop {
+            z-index: 5001 !important;
+        }
+
+        .startMenuShow {
+            display: normal;
+            z-index: 100001;
+            border-radius: 8px;
+            width: 600px;
+            height: 400px;
+            left: 25px;
+            background-color: #f3f3f3;
+            border: 2px solid black;
+            position: absolute;
+            animation-name: startShow;
+            animation-duration: 1s;
+            animation-delay: 0s;
+            animation-fill-mode: both;
+        }
+
+        .startMenuHide {
+            display: normal;
+            z-index: 100001;
+            border-radius: 6px;
+            width: 600px;
+            height: 400px;
+            left: 25px;
+            background-color: #f3f3f3;
+            border: 2px solid black;
+            position: absolute;
+            animation-name: startHide;
+            animation-duration: 1s;
+            animation-delay: 0s;
+            animation-fill-mode: both;
+        }
+
+        @keyframes startShow {
+            from {
+                bottom: -600px;
+            }
+
+            to {
+                bottom: 60px;
+            }
+        }
+
+        @keyframes startHide {
+            from {
+                bottom: 60px;
+            }
+
+            to {
+                bottom: -600px;
+            }
+        }
+
+        .btnGroup {
+            display: inline-block;
+            margin-left: 20px;
+        }
+
+        .startMenuButton {
+            display: block;
+            width: 100%;
+            margin: 0px;
+            border: none;
+            padding: 5px;
+        }
+
+        startMenuButton:not(:last-child) {
+        }
+
+        .ui-dialog {
+            z-index: 1000 !important;
+        }
+
+        ._ui-dialog-title {
+            color: #FFFFFF !important;
+            background-color: dodgerblue !important;
+        }
+
+        #maskLayout {
+            display: none;
+            width: 100%;
+            height: 100%;
+            opacity: 0.2;
+            min-height: 500px;
+            background-color: black;
+            position: absolute;
+            top: 0px;
+            z-index: 99999;
+        }
+
+        .popup {
+            display: none;
+            position: absolute;
+            top: 20%;
+            left: 20%;
+            background-color: white;
+            z-index: 100000;
+        }
+
+        .shadow {
+            box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+        }
+
+        .backgrd {
+        }
+
+        .button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 0px 0px;
+            cursor: pointer;
+        }
+
+        .button1 {
+            border-radius: 2px;
+        }
+
+        .button2 {
+            border-radius: 4px;
+        }
+
+        .button3 {
+            border-radius: 8px;
+        }
+
+        .button4 {
+            border-radius: 12px;
+        }
+
+        .button5 {
+            border-radius: 50%;
+        }
+    </style>
+    <!--
+    The key to the frames display is to manage the z-index values. the algorithm for z-index values will be as follows
+        the z-index layer for popups will be between 40000-49999
+        the 1st frame will launch at 40000 and then each subsequent popup will be shown at the value of last
+        shown z-index +1.
+
+    -->
+    <div id="WebDesktop" style="display:normal">
+        <div id="shortcutMenu">
+            <div id="shortcutLogin" style="text-align: center; width: 120px; position: fixed; top: 50px; left: 50px; color: white">
+                <!--Frame(s)work favors simplicity. calling the openPage() from the onclick is easy enough. no need for obfuscation-->
+                <div style="width:100%;"><i style="color:white" class="fa-duotone fa-file-user fa-2x" onclick="openPage('Login');"></i></div>
+                <span style="width: 100%;font-size: 10px">Login</span>
+            </div>
+            <div id="shortcutWorkflow" style="text-align: center; width: 120px; position: fixed; top: 50px; left: 50px; color: white">
+                <!--Frame(s)work favors simplicity. calling the openPage() from the onclick is easy enough. no need for obfuscation-->
+                <div style="width:100%;"><i style="color:white" class="fa-duotone fa-hat-wizard fa-2x" onclick="openPage('StartWorkflow');"></i></div>
+                <span style="width: 100%;font-size: 10px">Workflow Example</span>
+            </div>
+        </div>
+    </div>
+    <script>
+        let myDevice = new Device("index");
+        /// state manager object declaration
+        /// use the stateManager object to store any cached values shared globally
+        let stateManager = {};
+        /// z-index frame top
+        stateManager.zIndex = 20000;
+        function getTopFrameZIndex() {
+            return stateManager.zIndex;
+        }
+        function setTopFrameZIndex() {
+            stateManager.zIndex = stateManager.zIndex + 1;
+        }
+        function getNewTopFrameZIndex() {
+            setTopFrameZIndex();
+            return stateManager.zIndex;
+        }
+
+
+        /// show|hide
+        stateManager.startButtonState = 'hide';
+        /// windowPaneObjects
+        stateManager.windowPanesCollection = [];
+        /// dialog Colors Collection
+        stateManager.windowPaneColorCollection = [];
+
+        /// get a UUID
+        function GetUUID() {
+            return myDevice.GenerateUUID();
+        }
+        /// correlationId can be used for tracking custom session guid
+        stateManager.correlationId = GetUUID();
+        /// access the correlationId throughout frames by calling 'parent.GetCorrelationId()'
+        function GetCorrelationId() {
+            return stateManager.correlationId;
+        }
+
+        /// example of a user profile object that will be instantiated and access on the index.html-js
+        /// user profile
+        /// initialize as null;
+        stateManager.userProfile = {};
+        stateManager.userProfile.roles = '';
+        //use the userProfile for user information
+        stateManager.userProfile.UserId = '';
+        function getuserProfile() {
+            return stateManager.userProfile;
+        }
+        function setuserProfile(rolesInfo) {
+            stateManager.userProfile.roles = JSON.parse(rolesInfo);
+            /// use the line below to set up the 
+            //setUserProfileFunctionality();
+        }
+
+        /// set environment based on profile
+        function setUserProfileFunctionality() {
+
+            $('#WebDesktop').show();
+        }
+
+        /// example of stateManager attribute array for enumeration
+        stateManager.keys = {};
+        stateManager.keys.getUserFromLogin = 'getDataFromLogin';
+
+
+        ///User Info Details
+        stateManager.userInfoDetails = null;
+        function getUserInfoDetails() {
+            return stateManager.userInfoDetails;
+        }
+        function setUserInfoDetails(UserInfoDetails) {
+            stateManager.userInfoDetails = JSON.parse(UserInfoDetails);
+        }
+
+        /// this method is the only method for interacting with the companion web api
+        /// the method parameters are
+        /// jsonObject = requestObject
+        /// key = call/response type
+        function Post2Server(jsonObject, key) {
+            /// correlationId to each 'requestObject'
+            jsonObject.correlationId = GetCorrelationId();
+            /// jquery ajax call to post request object
+            const result = $.ajax({
+                method: "POST",
+                /// this represents the only web api endpoint using method routing
+                url: `/api/universal?jObject=${JSON.stringify(jsonObject)}`,
+                async: false,
+                beforeSend: function (xhr, settings) {
+
+                },
+                error: function (xhr, exception) {
+                    alert(exception);
+                },
+                dataFilter: function (data, type) {
+
+                },
+                success: function (data, status, xhr) {
+                    /// match the key with the response object type
+                    switch (key) {
+                        case stateManager.keys.getUserFromLogin:
+                            {
+                                /// call the appropriate method with (responseObject)
+                                setuserProfile(xhr.ResponseText);
+                                break;
+                            }
+                    }
+                },
+                complete: function (xhr, status) {
+
+                },
+            });
+            return result;
+        }
+        /// resize all the frames when browser size changed
+        function windowSize() {
+            /// loop through the collection of forms
+            $.each(stateManager.windowPanesCollection, function (key, value) {
+                $("#" + value.id).css('width', `${window.innerWidth}px`);
+                $("#" + value.id).css('height', `${window.innerHeight}px`);
+                ///iframes
+                $("#iframe_" + value.id).css('width', `${window.innerWidth - 40}px`);
+                $("#iframe_" + value.id).css('height', `${window.innerHeight - 80}px`);
+                ///nav
+                $("#nav_" + value.id).css('width', `${window.innerWidth - 20}px`);
+
+            });
+            return false;
+        }
+
+        /// assign the windowSize method to window.onresize event
+        window.onresize = windowSize;
+
+
+        /// this method provides shortcuts to launch a frame with the pageName 
+        function openPage(pageName) {
+            let frameObject = {};
+            switch (pageName) {
+                case "Login":
+                    {
+                        frameObject.applicationName = 'login';
+                        frameObject.title = 'Login User';
+                        break;
+                    }
+                case "StartWorkflow":
+                    {
+                        frameObject.applicationName = 'step_1-0';
+                        frameObject.title = 'Workflow Step 1';
+                        break;
+                    }
+            }
+            createFrame(frameObject);
+        }
+
+        //Utility Method
+        function displayTime(ticksInSecs) {
+            return new Date(ticksInSecs / 1e4 - 1.16444736e13);
+        }
+
+        $(function () {
+            openPage('Login');
+        })
+
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js" integrity="sha512-57oZ/vW8ANMjR/KQ6Be9v/+/h6bq9/l3f0Oc7vn6qMqyhvPd1cvKBRWWpzu0QoneImqr2SkmO4MSqU+RpHom3Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script language="javascript">
+        $(function () {
+
+        });
+        /// The key to managing the 'frames' is managing their visibility
+        /// managing the 'frame' z-index provides a mechanism show/active
+        function changeZIndex(frame) {
+            $("#" + frame).css('z-index', getNewTopFrameZIndex());
+        }
+
+
+        /// This method is the heart of the Frame(s)work framework
+        /// This method will accept a json object containing the required attributes
+        /// parsed by the frame.js Frame() object
+        function createFrame(FrameObject) {
+            let newFrame = new Frame(FrameObject);
+            $('body').append(newFrame.injectableCode);
+
+            // Dialog message
+            let selectedColor = '#a6192e';
+            $(`#nav_${newFrame.id}`).css('background-color', selectedColor);
+            newFrame.displayState = "visible";
+            /// add windowPane object to collection of Frames
+            stateManager.windowPanesCollection.push(newFrame)
+
+            // create a button in minimize taskbar
+            let abbreviatedTitle = (newFrame.title.length > 15) ? `${newFrame.title.substring(0, 12)}...` : newFrame.title;
+            $('#minimizeBar').append(`<button onclick="$('#${newFrame.id}').show();" style="margin-top:5px; background-color: #f3f3f3"
+                class="button button3" id="btn_${newFrame.id}"><i style="color:black" class="${newFrame.iconClass}"></i></button>`)
+            $(`#${newFrame.id}`).show();
+            $(`#${newFrame.id}`).draggable();
+        }
+
+        /// in the single frame view there is no taskbar items
+        function closeFrame(frame) {
+            $(`#${frame}`).remove();
+        }
+
+        /// in the single frame view there is no taskbar items
+        /// in the case of 'home' button clicked, all frames will be closed
+        function closeFrames() {
+            /// loop through the collection of forms
+            $.each(stateManager.windowPanesCollection, function (key, value) {
+                $(`#${value.id}`).remove();
+            });
+            return false;
+        }
+
+
+        /// this is a smaple method for sending a message to the web api for logging
+        function sendUILog(UIEventMessage) {
+            let requestObject = {};
+            requestObject.typename = UIEventMessage;
+            Post2Server(requestObject, '');
+        }
+
+    </script>
+</body>
+</html>
