@@ -207,11 +207,15 @@
                 <div style="width:100%;"><i style="color:white" class="fa-duotone fa-file-user fa-2x" onclick="openPage('Login');"></i></div>
                 <span style="width: 100%;font-size: 10px">Login</span>
             </div>
-            <div id="shortcutWorkflow" style="text-align: center; width: 120px; position: fixed; top: 50px; left: 50px; color: white">
+            <div id="shortcutWorkflow" style="text-align: center; width: 120px; position: fixed; top: 150px; left: 50px; color: white">
                 <!--Frame(s)work favors simplicity. calling the openPage() from the onclick is easy enough. no need for obfuscation-->
                 <div style="width:100%;"><i style="color:white" class="fa-duotone fa-hat-wizard fa-2x" onclick="openPage('StartWorkflow');"></i></div>
                 <span style="width: 100%;font-size: 10px">Workflow Example</span>
             </div>
+        </div>
+        <div style="float:left;width:250px;left:200px;position:absolute">
+            <p>The shortcuts are the primary menu for the mobile device user interface.</p>
+            <p>The index.html page provide the centralized processing and storage for the entire application.</p>
         </div>
     </div>
     <script>
@@ -222,14 +226,29 @@
         /// z-index frame top
         stateManager.zIndex = 20000;
         function getTopFrameZIndex() {
-            return stateManager.zIndex;
+            try {
+                return stateManager.zIndex;
+            }
+            catch (err) {
+                alert(err);
+            }
         }
         function setTopFrameZIndex() {
-            stateManager.zIndex = stateManager.zIndex + 1;
+            try {
+                stateManager.zIndex = stateManager.zIndex + 1;
+            }
+            catch (err) {
+                alert(err);
+            }
         }
         function getNewTopFrameZIndex() {
-            setTopFrameZIndex();
-            return stateManager.zIndex;
+            try {
+                setTopFrameZIndex();
+                return stateManager.zIndex;
+            }
+            catch (err) {
+                alert(err);
+            }
         }
 
 
@@ -242,29 +261,71 @@
 
         /// get a UUID
         function GetUUID() {
-            return myDevice.GenerateUUID();
+            try {
+                return myDevice.GenerateUUID();
+            }
+            catch (err) {
+                alert(err);
+            }
         }
         /// correlationId can be used for tracking custom session guid
         stateManager.correlationId = GetUUID();
         /// access the correlationId throughout frames by calling 'parent.GetCorrelationId()'
         function GetCorrelationId() {
-            return stateManager.correlationId;
+            try {
+                return stateManager.correlationId;
+            }
+            catch (err) {
+                alert(err);
+            }
         }
 
         /// example of a user profile object that will be instantiated and access on the index.html-js
         /// user profile
-        /// initialize as null;
         stateManager.userProfile = {};
-        stateManager.userProfile.roles = '';
-        //use the userProfile for user information
+        stateManager.userProfile.Password = '';
+        /// use the userProfile for user information
         stateManager.userProfile.UserId = '';
-        function getuserProfile() {
-            return stateManager.userProfile;
+        function get_userProfile() {
+            try {
+                return stateManager.userProfile;
+            }
+            catch (err) {
+                alert(err);
+            }
         }
-        function setuserProfile(rolesInfo) {
-            stateManager.userProfile.roles = JSON.parse(rolesInfo);
-            /// use the line below to set up the 
-            //setUserProfileFunctionality();
+        function set_userProfile(userInfo) {
+            try {
+                stateManager.userProfile.UserId = JSON.parse(userInfo).Key;
+                stateManager.userProfile.Password = JSON.parse(userInfo).Value;
+                /// use the line below to set up the
+                //setUserProfileFunctionality();
+            }
+            catch (err) {
+                alert(err);
+            }
+        }
+
+        /// DataSet
+        /// The dataset object is retrieved from the web api
+        /// The dataset object is stored as string and casted
+        stateManager.userProfileDetails = {};
+        stateManager.userProfileDetails.DataSet = '';
+        function get_userProfileDetails_DataSet() {
+            try {
+                return stateManager.userProfileDetails.DataSet;
+            }
+            catch (err) {
+                alert(err);
+            }
+        }
+        function set_userProfileDetails_DataSet(userProfileDetails_DataSet) {
+            try {
+                stateManager.userProfileDetails.DataSet = userProfileDetails_DataSet;
+            }
+            catch (err) {
+                alert(err);
+            }
         }
 
         /// set environment based on profile
@@ -276,16 +337,8 @@
         /// example of stateManager attribute array for enumeration
         stateManager.keys = {};
         stateManager.keys.getUserFromLogin = 'getDataFromLogin';
-
-
-        ///User Info Details
-        stateManager.userInfoDetails = null;
-        function getUserInfoDetails() {
-            return stateManager.userInfoDetails;
-        }
-        function setUserInfoDetails(UserInfoDetails) {
-            stateManager.userInfoDetails = JSON.parse(UserInfoDetails);
-        }
+        stateManager.keys.getEnrichData = 'getEnrichedData';
+        stateManager.keys.getDataSet = 'getDataSet';
 
         /// this method is the only method for interacting with the companion web api
         /// the method parameters are
@@ -315,7 +368,24 @@
                         case stateManager.keys.getUserFromLogin:
                             {
                                 /// call the appropriate method with (responseObject)
-                                setuserProfile(xhr.ResponseText);
+                                /// upon receipt of the payload
+                                /// the 'set' accessor will assign the values retrieved to the 'stateManager' object->line 263
+                                set_userProfile(String(xhr.responseText));
+                                closeFrames();
+                                break;
+                            }
+                        case stateManager.keys.getEnrichData:
+                            {
+                                /// call the appropriate method with (responseObject)
+                                break;
+                            }
+                        case stateManager.keys.getDataSet:
+                            {
+                                /// call the appropriate method with (responseObject)
+                                /// this method will set the data response to the stateManager->stateManager.userProfileDetails.DataSet
+                                /// the value will be returned to the component page 'Post2Server' but also
+                                /// the value will be accessible from calling the get_userProfileDetails_DataSet()
+                                set_userProfileDetails_DataSet(xhr.responseText)
                                 break;
                             }
                     }
@@ -346,7 +416,7 @@
         window.onresize = windowSize;
 
 
-        /// this method provides shortcuts to launch a frame with the pageName 
+        /// this method provides shortcuts to launch a frame with the pageName
         function openPage(pageName) {
             let frameObject = {};
             switch (pageName) {
@@ -362,6 +432,10 @@
                         frameObject.title = 'Workflow Step 1';
                         break;
                     }
+                case "LoginCoding": {
+                    frameObject.applicationName = 'LoginCoding';
+                    frameObject.title = 'Explaining the Sample Project';
+                }
             }
             createFrame(frameObject);
         }
@@ -370,10 +444,6 @@
         function displayTime(ticksInSecs) {
             return new Date(ticksInSecs / 1e4 - 1.16444736e13);
         }
-
-        $(function () {
-            openPage('Login');
-        })
 
     </script>
 
@@ -406,7 +476,7 @@
             // create a button in minimize taskbar
             let abbreviatedTitle = (newFrame.title.length > 15) ? `${newFrame.title.substring(0, 12)}...` : newFrame.title;
             $('#minimizeBar').append(`<button onclick="$('#${newFrame.id}').show();" style="margin-top:5px; background-color: #f3f3f3"
-                class="button button3" id="btn_${newFrame.id}"><i style="color:black" class="${newFrame.iconClass}"></i></button>`)
+                    class="button button3" id="btn_${newFrame.id}"><i style="color:black" class="${newFrame.iconClass}"></i></button>`)
             $(`#${newFrame.id}`).show();
             $(`#${newFrame.id}`).draggable();
         }
@@ -433,6 +503,11 @@
             requestObject.typename = UIEventMessage;
             Post2Server(requestObject, '');
         }
+
+
+        $(function () {
+            openPage('Login');
+        })
 
     </script>
 </body>

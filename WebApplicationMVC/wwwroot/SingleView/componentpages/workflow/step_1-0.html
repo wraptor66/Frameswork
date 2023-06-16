@@ -12,129 +12,49 @@
 </head>
 <body>
     <script>
+        /// Notice that each component  page establishes a 'state' object
+        /// This can be used for variable values scoped to the component
+        /// Application wide variables are accessible through the parent.get & parent.set
         let state = {};
-        state.videoUrl = '';
-        async function uploadFile() {
-            try {
-                $.blockUI({ message: 'Uploading Video' });
-                let formData = new FormData();
-                formData.append("uploadFile", fileupload.files[0]);
-                const response = await fetch('https://biztalks.azurewebsites.net/api/upload', {
-                    method: "POST",
-                    body: formData
-                });
-                const jsonData = await response.json();
-                if (jsonData.status == 'OK') {
-                    console.log(jsonData.fileName);
-                    state.videoUrl += jsonData.fileName;
-
-                }
-                else {
-
-                }
-                $.unblockUI();
-                $('#upload-button').text('Uploaded');
-            }
-            catch (e) {
-                $.unblockUI();
-                console.log(`error line 39: ${e}`);
-
-            }
-
-        }
-
 
         function nextStep() {
-            //validate the values
-            if ($('#upload-button').text().toLowerCase() == 'upload') {
-                alert('Please upload your video.');
-                return false;
-            }
-            if ($('#inputBiztalkName').val().toLowerCase() == '') {
-                alert('Please enter a VidTok Name.');
-                return false;
-            }
-            if ($('#inputCaptionHeader').val().toLowerCase() == '') {
-                alert('Please enter a Caption Header.');
-                return false;
-            }
-            if ($('#captionMessage').val().toLowerCase() == '') {
-                alert('Please enter a Caption Message.');
-                return false;
-            }
-            if ($('#calendarLinkText').val().toLowerCase() == '') {
-                alert('Please enter a Link Button Text.');
-                return false;
-            }
-            if ($('#calendarLink').val().toLowerCase() == '') {
-                alert('Please enter a Link Address.');
+            /// validate the input fields 
+            state.inputfield1 = $('#inputfield1').val().toLowerCase();
+            if (state.inputfield1 == '') {
+                alert('Please enter something into Input Field #1.');
                 return false;
             }
 
+            state.inputfield2 = $('#inputfield2').val().toLowerCase();
+            if (state.inputfield2 == '') {
+                alert('Please enter something into Input Field #2.');
+                return false;
+            }
+            /// create the json object that is passed into the parent.createFrame method to launch next frame
             let frameObject = {};
-            frameObject.applicationName = 'createBiztalk_Postcard-2';
-            frameObject.title = 'Preview VidTok';
-            frameObject.biztalkName = `${$('#inputBiztalkName').val()}`;
-            frameObject.videoName = `${state.videoUrl}`;
-            frameObject.captionHeader = `${$('#inputCaptionHeader').val()}`;
-            frameObject.captionMessage = `${$('#captionMessage').val()}`
-            frameObject.calendarLinkText = `${$('#calendarLinkText').val()}`;
-            frameObject.calendarLink = `${$('#calendarLink').val()}`;
+            frameObject.applicationName = 'step_1-1';
+            frameObject.title = 'Preview Workflow Step #1';
+            frameObject.inputfield1 = `${state.inputfield1}`;
+            frameObject.inputfield2 = `${state.inputfield2}`;
             parent.createFrame(frameObject);
 
         }
     </script>
-    <!--video formatting-->
-    <style>
-        .embed-container {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            overflow: hidden;
-            max-width: 100%;
-        }
-
-            .embed-container iframe, .embed-container object, .embed-container embed {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-            }
-    </style>
-    <!--end video formatting-->
     <!-- Bootstrap Form Input -->
     <div class="container">
         <form class="row g-3">
-            <div class="col-12">
-                <label for="inputBiztalkName" class="form-label">Enter VidTok Name </label>
-                <input type="text" class="form-control" id="inputBiztalkName" placeholder="">
-            </div>
-            <div class="col-12">
-                <div id="uploaderContainer">
-                    <input id="fileupload" type="file" name="fileupload" accept="video/*"/>
-                    <button class="btn btn-secondary" type="button" id="upload-button" onclick="uploadFile()">Upload</button>
-                </div>
-            </div>
             <div class="col-12" id="captionText">
                 <div class="form-group">
-                    <label for="inputCaptionHeader" class="form-label"> Caption Header </label>
-                    <input type="text" class="form-control" id="inputCaptionHeader" placeholder="">
+                    <label for="inputfield1" class="form-label"> Input Field #1 </label>
+                    <input type="text" class="form-control" id="inputfield1" placeholder="">
                 </div>
-                <div class="form-group" style="margin-top:10px">
-                    <label for="captionMessage">Caption Message < 155 Chars</label>
-                    <textarea class="form-control" id="captionMessage" rows="4"></textarea>
-                </div>
-                <div class="form-group" style="margin-top:10px">
-                    <label for="calendarLinkText" class="form-label">Enter Link Button Text </label>
-                    <input type="text" class="form-control" id="calendarLinkText" placeholder="">
-                </div>
-                <div class="form-group" style="margin-top:10px">
-                    <label for="calendarLink">Calendar Link</label>
-                    <textarea class="form-control" id="calendarLink" rows="2"></textarea>
+                <div class="form-group">
+                    <label for="inputfield2" class="form-label"> Input Field #2 </label>
+                    <input type="text" class="form-control" id="inputfield2" placeholder="">
                 </div>
             </div>
-            <button class="btn btn-primary" type="button" id="preview" onclick="nextStep()"> Preview </button>
+            <!--This button will launch the 2nd step in the workflow and pass the values within the Input Fields-->
+            <button class="btn btn-primary" type="button" id="preview" onclick="nextStep()"> Preview Values In Next Step </button>
         </form>
     </div>
 </body>

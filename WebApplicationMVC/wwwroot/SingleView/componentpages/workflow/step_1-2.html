@@ -14,7 +14,9 @@
     <script src="../../js/device.js"></script>
     <script src="../../js/jquery/blockui.js"></script>
 
-    <!--<script src="https://malsup.github.io/jquery.blockUI.js"></script>-->
+    <!--Here we are adding the DataTables.net Data Tables with responsiveness-->
+    <link href="//cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="//cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 </head>
 <body>
     <script>
@@ -35,109 +37,105 @@
             return null;
         }
 
-        var biztalkName = GetQueryStringVar('biztalkname', queryParams);
-        var biztalkId = GetQueryStringVar('biztalkid', queryParams);
+        /// code block to reuse if there was a query string variable
+        //var variable1 = GetQueryStringVar('variable1', queryParams);
+ 
 
         let state = {};
-        state.videoURL = '';
-        state.insertCompleted = false;
+        state.userName = '';
+        state.password = '';
 
         $(function () {
+            try {
+                /// gather the user details from the index.html 'statemanager' object
+                state.userName = parent.get_userProfile().UserId;
+                state.password = parent.get_userProfile().Password;
+                /// the page has loaded
+                /// add code for HTML modifications
+                $('#userName').val(state.userName);
+                $('#password').val(state.password);
+            }
+            catch (err) {
+                alert(err);
+            }
 
-            console.log(`encoded biztalkname: ${biztalkName} | decoded biztalkname: ${window.atob(biztalkName)}`)
-            $('#BiztalkName').text(`${window.atob(biztalkName)}`);
-            $('#BiztalkId').text(`Your VidTok Id is ${window.atob(biztalkId)}`);
-            $('#biztalkUrl').attr('href', `https://biztalks.azurewebsites.net/${window.atob(biztalkId)}`);
-            $('#biztalkLink').text(`https://biztalks.azurewebsites.net/${window.atob(biztalkId)}`);
-            $('#smsMessage').text(`https://biztalks.azurewebsites.net/${window.atob(biztalkId)}`);
-            $('#emailMessage').text(`https://biztalks.azurewebsites.net/${window.atob(biztalkId)}`);
-            
         })
-        let device = new Device('createbiztalk_1-2.html');
-        function sendEmail() {
-            $.blockUI({ message: 'Sending Message Email' });
-            //$('#buttonSaveIcon').removeClass('fa-regular fa-floppy-disk');
-            //$('#buttonSaveIcon').addClass('fa fa-spinner fa-spin fa-fw');
-            //$("#savePostcard").attr("disabled", true);
-            setTimeout(function () {
-            //string email = Convert.ToString(jObject["email"]);
-            //string title = Convert.ToString(jObject["title"]);
-            //string message = Convert.ToString(jObject["message"]);
+        let device = new Device('step_1-2.html');
+        function getData() {
+            try {
+                $.blockUI({ message: 'Gathering Data' });
+                setTimeout(function () {
+                    try {
+                        let jObject = {};
+                        jObject.correlationId = device.GenerateUUID();
+                        jObject.methodname = 'GetDataSet';
 
-                let jObject = {};
-                jObject.correlationId = device.GenerateUUID();
-                jObject.methodName = 'SendVidTokEmail';
-                jObject.email = $('#inputEmailAddress').val();
-                jObject.title = $('#inputEmailTitle').val();
-                jObject.message = $('#emailMessage').val();
+                        let request = jObject;
+                        /// there are 2 ways to collect the information displayed in the datatable
+                        /// 1
+                        /// first is to call the 'parent.Post2Server'
+                        //let result = parent.Post2Server(request, "getDataSet").responseText;
+                        //console.log(`result= ${result}`);
+                        //let data = JSON.parse(result);
 
-                let request = jObject;
-                let result = parent.Post2Server(request, "sendVidTokEmail").responseText;
-                console.log(`result= ${result}`);
-                $.unblockUI();
-                alert('Email Sent!');
-            }, 500);
+                        /// 2
+                        /// second is to call the 'get' accessor of the index 'StateManager' -> stateManager.userProfileDetails.DataSet = '';
+                        /// call the web api and load the dataset data into the 'index.html' stateManager
+                        parent.Post2Server(request, "getDataSet").responseText;
+                        let result = parent.get_userProfileDetails_DataSet();
+                        console.log(`result= ${result}`);
+                        let data = JSON.parse(result);
+
+                        $('#myTable').DataTable({
+                            data: data,
+                            columns: [
+                                { data: 'category', title: 'Category' },
+                                { data: 'author', title: 'Author' },
+                                { data: 'title', title: 'Title' },
+                                { data: 'price', title: 'Price' }
+                            ]
+                        });
+                        $.unblockUI();
+                }
+            catch (err) {
+
+                    alert(err);
+                }
+                }, 500);
+            }
+            catch (err) {
+
+                alert(err);
+            }
         }
 
-        function sendSMS() {
-            $.blockUI({ message: 'Sending Message SMS' });
-            setTimeout(function () {
-
-                let jObject = {};
-                jObject.correlationId = device.GenerateUUID();
-                jObject.methodName = 'SendVidTokSMS';
-                jObject.phoneNumber = $('#inputPhoneNumber').val();
-                jObject.message = $('#smsMessage').val();
-
-                let request = jObject;
-                let result = parent.Post2Server(request, "sendVidTokSMS").responseText;
-                console.log(`result= ${result}`);
-                $.unblockUI();
-                alert('SMS Sent!');
-            }, 500);
-        }
     </script>
     <!-- Bootstrap Form Input -->
-    <div style="margin-top: 0px; width: 400px" class="card">
-        <div class="col-12" style="height:70px">
-            <h4 id="BiztalkName" style="margin-top: 10px; margin-left: 10px;" class="">
-                <img class="card-img-top float-left" src="../../Assets/iadvizrsLogo.png" alt="Card image" style="width:50px">Biztalk - Postcard
-            </h4>
-            <hr />
-
-        </div>
-
-        <div class="card-body">
-            <h5 class="col-12" id="BiztalkId"></h5>
-            <a id="biztalkUrl" target="_blank" href="#" class="btn btn-primary">
-            <span id="biztalkLink"></span></a>
-        </div>
-
-        <div class="col-12" id="SendSMSMessage">
-            <div class="form-group">
-                <label for="inputPhoneNumber" class="form-label"> Recipient Phone Number </label>
-                <input type="tel" class="form-control" id="inputPhoneNumber" placeholder="">
+    <div id="" class="modal-dialog" style="">
+        <div id="" class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title col-12" id="" style="margin-bottom:0px">
+                    <span id="">Logged In User Profile</span>
+                </h5>
             </div>
-            <div class="form-group" style="margin-top:10px">
-                <label for="smsMessage">SMS Message < 155 Chars</label>
-                <textarea class="form-control" id="smsMessage" rows="2"></textarea>
-            </div>
-            <button class="btn btn-primary" type="button" id="preview" onclick="sendSMS()"> Send </button>
-        </div>
-        <div class="col-12" id="SendEmailMessage">
-            <div class="form-group">
-                <label for="inputEmailAddress" class="form-label"> Recipient Email Address </label>
-                <input type="email" class="form-control" id="inputEmailAddress" placeholder="">
-            </div>
-            <div class="form-group">
-                <label for="inputEmailTitle" class="form-label"> Email Title </label>
-                <input type="text" class="form-control" id="inputEmailTitle" placeholder="">
-            </div>
-            <div class="form-group" style="margin-top:10px">
-                <label for="emailMessage">Email Message Body</label>
-                <textarea class="form-control" id="emailMessage" rows="4"></textarea>
-            </div>
-            <button class="btn btn-primary" type="button" id="preview" onclick="sendEmail()"> Send </button>
+            <form class="row g-3">
+                <div class="col-12" id="captionText">
+                    <div class="form-group">
+                        <label for="userName" class="form-label"> User Name </label>
+                        <input type="text" class="form-control" id="userName" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="form-label"> Password </label>
+                        <input type="text" class="form-control" id="password" placeholder="">
+                    </div>
+                </div>
+            </form>
+            <!--This button will launch the 2nd step in the workflow and pass the values within the Input Fields-->
+            <button class="btn btn-primary" type="button" id="" onclick="getData()"> Get </button>
+            <form class="row g-3">
+                <table class="col-12 display" id="myTable">
+                </table>
+            </form>
         </div>
     </div>
 </body>

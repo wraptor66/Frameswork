@@ -34,115 +34,90 @@
             return null;
         }
 
-        var biztalkName = GetQueryStringVar('biztalkname', queryParams);
-        var videoName = GetQueryStringVar('videoname', queryParams);
-        var captionHeader = GetQueryStringVar('captionheader', queryParams);
-        var captionMessage = GetQueryStringVar('captionmessage', queryParams);
-        var calendarLink = GetQueryStringVar('calendarlink', queryParams);
-        var calendarLinkText = GetQueryStringVar('calendarlinktext', queryParams);
         let state = {};
-        state.videoURL = '';
-        state.insertCompleted = false;
+        state.inputField1 = GetQueryStringVar('inputfield1', queryParams);
+        state.inputField2 = GetQueryStringVar('inputfield2', queryParams);
 
         $(function () {
-            $('#BiztalkName').text(window.atob(biztalkName));
-            $('#CaptionHeader').text(window.atob(captionHeader));
-            $('#CaptionMessage').append(window.atob(captionMessage));
-            //$('#CalendarLink').text(window.atob(calendarLink));
-            state.videoUrl = 'https://displayfiles.blob.core.windows.net/blobs/' + window.atob(videoName);
-
-            var player = videojs('uploaded_video');
-            player.src({
-                preload: 'auto',
-                src: state.videoUrl,
-                type: 'video/mp4'/*video type*/
-            });
-
-            player.play();
-
-            $('#scheduleMeeting').attr('href', window.atob(calendarLink));
-            $('#scheduleMeetingText').text(window.atob(calendarLinkText));
-
-            if (window.innerWidth > 500) {
-                $('#vidtokDialog').innerWidth(500);
-            }
-            else {
-
-            }
-            $('#uploaded_video').innerWidth(`${$('#vidtokModalContent').width() - 32}px`);
-            $('#uploaded_video').innerHeight(`${($('#vidtokModalContent').width() - 32) * .5625}px`);
+            $('#inputfield1').val(state.inputField1);
+            $('#inputfield2').val(state.inputField2);
         })
-        let device = new Device('createbiztalk_1-1.html');
+        let device = new Device('step_1-1.html');
 
-        function SaveBiztok() {
-            $.blockUI({ message: 'Creating VidTok' });
-            //$('#buttonSaveIcon').removeClass('fa-regular fa-floppy-disk');
-            //$('#buttonSaveIcon').addClass('fa fa-spinner fa-spin fa-fw');
-            //$("#savePostcard").attr("disabled", true);
+        function GetEnrichedData() {
+            $.blockUI({ message: 'Enriching Data' });
+
             setTimeout(function () {
                 let jObject = {};
                 jObject.correlationId = device.GenerateUUID();
-                jObject.methodName = 'InsertNewBiztok';
-                jObject.biztokName = biztalkName;
-                jObject.videoUrl = state.videoUrl;
-                jObject.captionHeader = captionHeader;
-                jObject.captionMessage = captionMessage;
-                jObject.calendarLinkText = calendarLinkText;
-                jObject.calendarLink = calendarLink;
+                jObject.methodname = 'EnrichData';
+                jObject.inputfield1 = state.inputField1;
+                jObject.inputfield2 = state.inputField2;
+
 
                 let request = jObject;
-                let result = parent.Post2Server(request, "insertNewBiztok").responseText;
+                let result = JSON.parse(parent.Post2Server(request, "getEnrichedData").responseText);
                 console.log(`result= ${result}`);
+                console.log(`key= ${result.Key}`);
+                console.log(`value= ${result.Value}`);
+                $('#inputfieldEnrich1').val(result.Key);
+                $('#inputfieldEnrich2').val(result.Value);
                 $.unblockUI();
 
-                let frameObject = {};
-                frameObject.applicationName = 'createBiztalk_Postcard-3';
-                frameObject.title = 'Share Your VidTok';
-                frameObject.biztalkName = `${window.atob(jObject.biztokName)}`;
-                frameObject.biztalkId = `${result}`;
-                parent.createFrame(frameObject);
             }, 500);
+        }
+
+        function nextStep() {
+            /// create the json object that is passed into the parent.createFrame method to launch next frame
+            let frameObject = {};
+            frameObject.applicationName = 'step_1-2';
+            frameObject.title = 'Workflow Step #3';
+            parent.createFrame(frameObject);
+
         }
     </script>
     <!-- Bootstrap Form Input -->
-    <div id="vidtokDialog" class="modal-dialog" style="">
-        <div id="vidtokModalContent" class="modal-content">
+    <div id="" class="modal-dialog" style="">
+        <div id="" class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title col-12" id="modal-title" style="margin-bottom:0px">
-                    <!--<img style="height:30px" src="../../../app/images/logo.png" />-->
-                    <span id="BiztalkName"></span>
+                <h5 class="modal-title col-12" id="" style="margin-bottom:0px">
+                    <span id="">Input Field Values</span>
                 </h5>
             </div>
-            <hr />
-            <div class="modal-body">
-                <div style="padding-left:10px">
-                    <!--Grid column-->
-                    <div id="videoPlayerContainer">
-                        <video id="uploaded_video"
-                               class="video-js"
-                               controls
-                               preload="auto"
-                               poster=""
-                               data-setup="{}">
-                            <source id="mp4Video" src="" type="video/mp4" />
-                            <p class="vjs-no-js">
-                                To view this video please enable JavaScript, and consider upgrading to a
-                                web browser that
-                                <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
-                            </p>
-                        </video>
+            <form class="row g-3">
+                <div class="col-12" id="captionText">
+                    <div class="form-group">
+                        <label for="inputfield1" class="form-label"> Input Field #1 </label>
+                        <input type="text" class="form-control" id="inputfield1" placeholder="">
                     </div>
-                    <h4 id="CaptionHeader" style="margin-top:10px" class="card-title"></h4>
-                    <p id="CaptionMessage" class="card-text"></p>
-                    <a id="scheduleMeeting" target="_blank" href="#" class="btn btn-primary"><span id="scheduleMeetingText"></span></a>
+                    <div class="form-group">
+                        <label for="inputfield2" class="form-label"> Input Field #2 </label>
+                        <input type="text" class="form-control" id="inputfield2" placeholder="">
+                    </div>
                 </div>
-            </div>
+            </form>
+            <!--This button will launch the 2nd step in the workflow and pass the values within the Input Fields-->
+            <button class="btn btn-primary" type="button" id="preview" onclick="GetEnrichedData()">Enrich Data</button>
+            <form class="row g-3">
+                <div class="col-12" id="captionText">
+                    <div class="form-group">
+                        <label for="inputfieldEnrich1" class="form-label"> Input Field #1 </label>
+                        <input type="text" class="form-control" id="inputfieldEnrich1" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputfieldEnrich2" class="form-label"> Input Field #2 </label>
+                        <input type="text" class="form-control" id="inputfieldEnrich2" placeholder="">
+                    </div>
+                </div>
+            </form>
+            <hr />
+
             <div class="" style="width:100%;text-align:center">
                 <hr />
-                <h4 id="BiztalkName" style="margin-top: 10px; margin-left: 0px;" class="">
-                    Save Biztalk
+                <h4 id="" style="margin-top: 10px; margin-left: 0px;" class="">
+                    
                 </h4>
-                <button onclick="SaveBiztok()" style="margin-left:0px" id="savePostcard" class="btn btn-success"><i id="buttonSaveIcon" class="fa-regular fa-floppy-disk"></i> Save</button>
+                <button onclick="nextStep()" style="margin-left:0px" id="enrichData" class="btn btn-success">Enrich</button>
             </div>
         </div>
     </div>

@@ -36,7 +36,7 @@ let Frame = function (FrameObject) {
             break;
         }
         case 'step_1-0': {
-            iframeSrc = `componentpages/postcard/createbiztalk_1-0.html`;
+            iframeSrc = `componentpages/workflow/step_1-0.html`;
             _Frame.autoOpen = false;
             _Frame.width = window.innerWidth;
             _Frame.height = window.innerHeight;
@@ -50,7 +50,51 @@ let Frame = function (FrameObject) {
             _Frame.iconClass = 'fa-regular fa-layer-plus';
             break;
         }
-
+        case 'step_1-1': {
+            iframeSrc = `componentpages/workflow/step_1-1.html?inputfield1=${FrameObject.inputfield1}&inputfield2=${FrameObject.inputfield2}`;
+            _Frame.autoOpen = false;
+            _Frame.width = window.innerWidth;
+            _Frame.height = window.innerHeight;
+            _Frame.title = FrameObject.title;
+            _Frame.resizable = true;
+            _Frame.modal = false;
+            _Frame.restoredHeight = 0;
+            _Frame.restoredWidth = 0;
+            _Frame.restoredTop = 0;
+            _Frame.restoredLeft = 0;
+            _Frame.iconClass = 'fa-regular fa-layer-plus';
+            break;
+        }
+        case 'step_1-2': {
+            iframeSrc = `componentpages/workflow/step_1-2.html`;
+            _Frame.autoOpen = false;
+            _Frame.width = window.innerWidth;
+            _Frame.height = window.innerHeight;
+            _Frame.title = FrameObject.title;
+            _Frame.resizable = true;
+            _Frame.modal = false;
+            _Frame.restoredHeight = 0;
+            _Frame.restoredWidth = 0;
+            _Frame.restoredTop = 0;
+            _Frame.restoredLeft = 0;
+            _Frame.iconClass = 'fa-regular fa-layer-plus';
+            break;
+        }
+        case 'LoginCoding': {
+            iframeSrc = `componentpages/coding/login.html`;
+            _Frame.autoOpen = false;
+            _Frame.width = window.innerWidth;
+            _Frame.height = window.innerHeight;
+            _Frame.title = FrameObject.title;
+            _Frame.resizable = true;
+            _Frame.modal = false;
+            _Frame.restoredHeight = 0;
+            _Frame.restoredWidth = 0;
+            _Frame.restoredTop = 0;
+            _Frame.restoredLeft = 0;
+            _Frame.iconClass = 'fa-sharp fa-solid fa-circle-info';
+            break;
+        }
     }
 
 

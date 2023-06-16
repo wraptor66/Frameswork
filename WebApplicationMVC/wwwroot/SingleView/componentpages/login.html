@@ -29,6 +29,11 @@
             }
             return null;
         }
+        /// constants
+        let constants = {};
+        constants.loginPageHelp = 'LoginCoding'
+
+
         /// example of collecting a query string 
         //var userName = GetQueryStringVar('emailaddress', queryParams);
         let blinks = 0;
@@ -53,15 +58,21 @@
             interval = setInterval(updateUI, 1000);
         });
 
+        function showCoding() {
+            parent.openPage(constants.loginPageHelp)
+        }
 
     </script>
     <!-- Bootstrap Form Input -->
     <div class="container">
         <div class="card mx-auto" style="max-width: 760px;">
             <div class="card-body">
-                <h1 class="h1 title">User Login<i onclick="" id="loginHelp" style="display:none;float:right;color:lightseagreen" class="fa-sharp fa-solid fa-circle-info"></i></h1>
-                <h3 class="h3">Sub Title</h3>
-                <p class="lead">Enter your credentials.</p>
+                <h1 class="h1 title">User Login<i onclick="showCoding()" id="loginHelp" style="display:none;float:right;color:lightseagreen" class="fa-sharp fa-solid fa-circle-info"></i></h1>
+                <h3 class="h3">Example of a form to process data against the Web API</h3>
+                <p class="lead">Enter your Sample Credentials.</p>
+                <p class="">This form will capture the 2 input fields and then pass them to the web api for validation.</p>
+                <p class="">Please step through the code to see the creation of a JSON Object that provides the Routing for Backend Execution.</p>
+
                 <!-- Static floating label -->
                 <div class="d-grid gap-2">
                     <div class="form-floating">
@@ -126,6 +137,8 @@
                                 }, 500);
 
                             }
+
+                          
                         </script>
                     </div>
                 </div>

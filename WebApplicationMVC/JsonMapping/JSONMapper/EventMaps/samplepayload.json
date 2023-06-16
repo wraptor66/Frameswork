@@ -339,62 +339,62 @@
   "\"<script type=\"text/javascript\">var slideNumber = 1; var slideCount = 10; var baseCount = 1; function MoveSlide(upDown) { if (upDown == 'Down') { $('#presentationtool_slide' + slideNumber).slideUp('slow'); if (slideNumber == baseCount) { slideNumber = slideCount; } else { slideNumber--; } $('#presentationtool_slide' + slideNumber).slideDown('slow'); } else { $('#presentationtool_slide' + slideNumber).slideUp('slow'); if (slideNumber == slideCount) { slideNumber = baseCount; } else { slideNumber++; } $('#presentationtool_slide' + slideNumber).slideDown('slow'); } }</script><div style=\"overflow": "hidden;",
   "width": "720px;",
   "height": null,
-  "400px;\">    <div id=\"presentationtool_slide1\" style=\"overflow": "hidden;",
+  "400px;\"> ï¿½ï¿½ï¿½<div id=\"presentationtool_slide1\" style=\"overflow": "hidden;",
   "width": "720px;",
   "height": null,
-  "400px;\">        <img src=\"http": null, //ipaths2.azurewebsites.net/assets/Sales21stCentury/Slide1.png" height="394" width="700" />    </div>    <div id="presentationtool_slide2" style="overflow: hidden; width:720px; height: 400px; display: none">        <img src="https://ipaths2.azurewebsites.net/assets/Sales21stCentury/Slide2.png" height="394" width="700" />    </div>    <div id="presentationtool_slide3" style="overflow: hidden; width:720px; height: 400px;">        <img src="https://ipaths2.azurewebsites.net/assets/Sales21stCentury/Slide3.png" height="394" width="700" />    </div>        <div id="presentationtool_slide4" style="overflow: hidden; width:720px; height: 400px; display: none">        <img src="https://ipaths2.azurewebsites.net/assets/Sales21stCentury/Slide4.png" height="394" width="700" />    </div>        <div id="presentationtool_slide5" style="overflow: hidden; width:720px; height: 400px;">        <img src="https://ipaths2.azurewebsites.net/assets/Sales21stCentury/Slide6.png" height="394" width="700" />    </div>    <div id="presentationtool_slide6" style="overflow: hidden; width:720px; height: 400px; display: none">        <img src="https://ipaths2.azurewebsites.net/assets/Sales21stCentury/Slide5.png" height="394" width="700" />    </div>    <div id="presentationtool_slide7" style="overflow: hidden; width:720px; height: 400px;">        <img src="https://ipaths2.azurewebsites.net/assets/Sales21stCentury/Slide7.png" height="394" width="700" />    </div>    <div id="presentationtool_slide8" style="overflow: hidden; width:720px; height: 400px; display: none">        <img src="https://ipaths2.azurewebsites.net/assets/Sales21stCentury/Slide8.png" height="394" width="700" />    </div>    <div id="presentationtool_slide9" style="overflow: hidden; width:720px; height: 400px;">        <img src="https://ipaths2.azurewebsites.net/assets/Sales21stCentury/Slide9.png" height="394" width="700" />    </div>    <div id="presentationtool_slide10" style="overflow: hidden; width:720px; height: 400px; display: none">        <img src="https://ipaths2.azurewebsites.net/assets/Sales21stCentury/Slide10.png" height="394" width="700" />    </div></div><button class="btn btn-info" onclick="MoveSlide('Down')">Back</button><button class="btn btn-info" onclick="MoveSlide('Up')">Next</button>",
+  "400px;\"> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½<img src=\"http": null, //ipaths2.azurewebsites.net/assets/Sales21stCentury/Slide1.png" height="394" width="700" /> ï¿½ï¿½ï¿½</div> ï¿½ï¿½ï¿½<div id="presentationtool_slide2" style="overflow: hidden; width:720px; height: 400px; display: none"> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½<img src="https://ipaths2.azurewebsites.net/assets/Sales21stCentury/Slide2.png" height="394" width="700" /> ï¿½ï¿½ï¿½</div> ï¿½ï¿½ï¿½<div id="presentationtool_slide3" style="overflow: hidden; width:720px; height: 400px;"> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½<img src="https://ipaths2.azurewebsites.net/assets/Sales21stCentury/Slide3.png" height="394" width="700" /> ï¿½ï¿½ï¿½</div> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½<div id="presentationtool_slide4" style="overflow: hidden; width:720px; height: 400px; display: none"> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½<img src="https://ipaths2.azurewebsites.net/assets/Sales21stCentury/Slide4.png" height="394" width="700" /> ï¿½ï¿½ï¿½</div> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½<div id="presentationtool_slide5" style="overflow: hidden; width:720px; height: 400px;"> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½<img src="https://ipaths2.azurewebsites.net/assets/Sales21stCentury/Slide6.png" height="394" width="700" /> ï¿½ï¿½ï¿½</div> ï¿½ï¿½ï¿½<div id="presentationtool_slide6" style="overflow: hidden; width:720px; height: 400px; display: none"> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½<img src="https://ipaths2.azurewebsites.net/assets/Sales21stCentury/Slide5.png" height="394" width="700" /> ï¿½ï¿½ï¿½</div> ï¿½ï¿½ï¿½<div id="presentationtool_slide7" style="overflow: hidden; width:720px; height: 400px;"> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½<img src="https://ipaths2.azurewebsites.net/assets/Sales21stCentury/Slide7.png" height="394" width="700" /> ï¿½ï¿½ï¿½</div> ï¿½ï¿½ï¿½<div id="presentationtool_slide8" style="overflow: hidden; width:720px; height: 400px; display: none"> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½<img src="https://ipaths2.azurewebsites.net/assets/Sales21stCentury/Slide8.png" height="394" width="700" /> ï¿½ï¿½ï¿½</div> ï¿½ï¿½ï¿½<div id="presentationtool_slide9" style="overflow: hidden; width:720px; height: 400px;"> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½<img src="https://ipaths2.azurewebsites.net/assets/Sales21stCentury/Slide9.png" height="394" width="700" /> ï¿½ï¿½ï¿½</div> ï¿½ï¿½ï¿½<div id="presentationtool_slide10" style="overflow: hidden; width:720px; height: 400px; display: none"> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½<img src="https://ipaths2.azurewebsites.net/assets/Sales21stCentury/Slide10.png" height="394" width="700" /> ï¿½ï¿½ï¿½</div></div><button class="btn btn-info" onclick="MoveSlide('Down')">Back</button><button class="btn btn-info" onclick="MoveSlide('Up')">Next</button>",
   "frm-frame-3-title": "How to Create and Modify iPaths",
   "frm-frame-3-content-text": "<h3>Editing Your iPath: Easy as W Y S I W Y G</h3><hr><p><strong>W</strong>hat <strong>Y</strong>ou <strong>S</strong>ee <strong>I</strong>s <strong>W</strong>hat <strong>Y</strong>ou <strong>G</strong>et is the easiest way to creating your Customer Journey Message. Just like a document editor (i.e. MS Word) you can write and format text, add images available on the web, or create a table.</p>",
   "frm-frame-3-video-link": null,
   "\"<script type=\"text/javascript\">var slideNumber = 1; var slideCount = 10; var baseCount = 1; function MoveSlide(upDown) { if (upDown == 'Down') { $('#presentationtool_slide' + slideNumber).slideUp('slow'); if (slideNumber == baseCount) { slideNumber = slideCount; } else { slideNumber--; } $('#presentationtool_slide' + slideNumber).slideDown('slow'); } else { $('#presentationtool_slide' + slideNumber).slideUp('slow'); if (slideNumber == slideCount) { slideNumber = baseCount; } else { slideNumber++; } $('#presentationtool_slide' + slideNumber).slideDown('slow'); } }</script><div style=\"overflow": "hidden;",
   "width": "720px;",
   "height": null,
-  "400px;\">    <div id=\"presentationtool_slide1\" style=\"overflow": "hidden;",
+  "400px;\"> ï¿½ï¿½ï¿½<div id=\"presentationtool_slide1\" style=\"overflow": "hidden;",
   "width": "720px;",
   "height": null,
-  "400px;\">        <img src=\"http\": null, //ipaths2.azurewebsites.net/assets/editingipaths/Slide1.png" height="394"
+  "400px;\"> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½<img src=\"http\": null, //ipaths2.azurewebsites.net/assets/editingipaths/Slide1.png" height="394"
   width="700" />
-     </div>    <div
+  ï¿½ï¿½ï¿½</div> ï¿½ï¿½ï¿½<div
   id="presentationtool_slide2" style="overflow: hidden; width:720px; height: 400px; display: none">
-         <img src="https://ipaths2.azurewebsites.net/assets/editingipaths/Slide2.png"
+  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½<img src="https://ipaths2.azurewebsites.net/assets/editingipaths/Slide2.png"
   height="394" width="700"
-  />    </div>
-     <div id="presentationtool_slide3"
-  style="overflow: hidden; width:720px; height: 400px;">        <img
+  /> ï¿½ï¿½ï¿½</div>
+  ï¿½ï¿½ï¿½<div id="presentationtool_slide3"
+  style="overflow: hidden; width:720px; height: 400px;"> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½<img
   src="https://ipaths2.azurewebsites.net/assets/editingipaths/Slide3.png" height="394"
   width="700" />
-     </div>        <div
+  ï¿½ï¿½ï¿½</div> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½<div
   id="presentationtool_slide4" style="overflow: hidden; width:720px; height: 400px; display: none">
-         <img src="https://ipaths2.azurewebsites.net/assets/editingipaths/Slide4.png"
+  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½<img src="https://ipaths2.azurewebsites.net/assets/editingipaths/Slide4.png"
   height="394" width="700"
-  />    </div>
-         <div id="presentationtool_slide5"
-  style="overflow: hidden; width:720px; height: 400px;">        <img
+  /> ï¿½ï¿½ï¿½</div>
+  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½<div id="presentationtool_slide5"
+  style="overflow: hidden; width:720px; height: 400px;"> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½<img
   src="https://ipaths2.azurewebsites.net/assets/editingipaths/Slide6.png" height="394"
   width="700" />
-     </div>    <div
+  ï¿½ï¿½ï¿½</div> ï¿½ï¿½ï¿½<div
   id="presentationtool_slide6" style="overflow: hidden; width:720px; height: 400px; display: none">
-         <img src="https://ipaths2.azurewebsites.net/assets/editingipaths/Slide5.png"
+  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½<img src="https://ipaths2.azurewebsites.net/assets/editingipaths/Slide5.png"
   height="394" width="700"
-  />    </div>
-     <div id="presentationtool_slide7"
-  style="overflow: hidden; width:720px; height: 400px;">        <img
+  /> ï¿½ï¿½ï¿½</div>
+  ï¿½ï¿½ï¿½<div id="presentationtool_slide7"
+  style="overflow: hidden; width:720px; height: 400px;"> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½<img
   src="https://ipaths2.azurewebsites.net/assets/editingipaths/Slide7.png" height="394"
   width="700" />
-     </div>    <div
+  ï¿½ï¿½ï¿½</div> ï¿½ï¿½ï¿½<div
   id="presentationtool_slide8" style="overflow: hidden; width:720px; height: 400px; display: none">
-         <img src="https://ipaths2.azurewebsites.net/assets/editingipaths/Slide8.png"
+  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½<img src="https://ipaths2.azurewebsites.net/assets/editingipaths/Slide8.png"
   height="394" width="700"
-  />    </div>
-     <div id="presentationtool_slide9"
-  style="overflow: hidden; width:720px; height: 400px;">        <img
+  /> ï¿½ï¿½ï¿½</div>
+  ï¿½ï¿½ï¿½<div id="presentationtool_slide9"
+  style="overflow: hidden; width:720px; height: 400px;"> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½<img
   src="https://ipaths2.azurewebsites.net/assets/editingipaths/Slide9.png" height="394"
   width="700" />
-     </div>    <div
+  ï¿½ï¿½ï¿½</div> ï¿½ï¿½ï¿½<div
   id="presentationtool_slide10" style="overflow: hidden; width:720px; height: 400px; display: none">
-         <img src="https://ipaths2.azurewebsites.net/assets/editingipaths/Slide10.png"
+  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½<img src="https://ipaths2.azurewebsites.net/assets/editingipaths/Slide10.png"
   height="394" width="700"
-  />    </div></div><button
+  /> ï¿½ï¿½ï¿½</div></div><button
   class="btn btn-info" onclick="MoveSlide('Down')">Back</button><button
   class="btn btn-info" onclick="MoveSlide('Up')">Next</button>"
   "frm-primaryworkflow-logoImage-text": null,
