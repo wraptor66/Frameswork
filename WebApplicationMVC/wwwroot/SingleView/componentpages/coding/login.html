@@ -17,45 +17,10 @@
         /// Application wide variables are accessible through the parent.get & parent.set
         let state = {};
 
-        function nextStep() {
-            /// validate the input fields 
-            state.inputfield1 = $('#inputfield1').val().toLowerCase();
-            if (state.inputfield1 == '') {
-                alert('Please enter something into Input Field #1.');
-                return false;
-            }
-
-            state.inputfield2 = $('#inputfield2').val().toLowerCase();
-            if (state.inputfield2 == '') {
-                alert('Please enter something into Input Field #2.');
-                return false;
-            }
-            /// create the json object that is passed into the parent.createFrame method to launch next frame
-            let frameObject = {};
-            frameObject.applicationName = 'step_1-1';
-            frameObject.title = 'Preview Workflow Step #1';
-            frameObject.inputfield1 = `${state.inputfield1}`;
-            frameObject.inputfield2 = `${state.inputfield2}`;
-            parent.createFrame(frameObject);
-
-        }
     </script>
     <!-- Bootstrap Form Input -->
     <div class="container">
-        <form class="row g-3">
-            <div class="col-12" id="captionText">
-                <div class="form-group">
-                    <label for="inputfield1" class="form-label"> Input Field #1 </label>
-                    <input type="text" class="form-control" id="inputfield1" placeholder="">
-                </div>
-                <div class="form-group">
-                    <label for="inputfield2" class="form-label"> Input Field #2 </label>
-                    <input type="text" class="form-control" id="inputfield2" placeholder="">
-                </div>
-            </div>
-            <!--This button will launch the 2nd step in the workflow and pass the values within the Input Fields-->
-            <button class="btn btn-primary" type="button" id="preview" onclick="nextStep()"> Preview Values In Next Step </button>
-        </form>
+       
     </div>
 </body>
 </html>
