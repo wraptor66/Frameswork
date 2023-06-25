@@ -1,5 +1,4 @@
-﻿/// <reference path="windowpane.js" />
-
+﻿
 //key to this object is the source_page
 //the url is the key to the app
 //the millisecond is the key to the instance
@@ -11,161 +10,35 @@
 //Epoint -> int
 //DialogName -> string
 //BaseModel -> string
-//
 
+//*** query string variables need to be all lowercase
 let Frame = function (FrameObject) {
     let _Frame = {};
     _Frame.id = 'Frame_' + new Date().getTime().toString();
     /// add a switch statement for mapping the applicationName to the iframeAddress
     let applicationName = FrameObject.applicationName;
     let iframeSrc = '';
-    let iconClass = 'fa-duotone fa-chart-pie-simple';
+    let iconClass = 'fa-duotone fa-users-viewfinder';
     switch (applicationName) {
-        case 'americansRetirement': {
-            iframeSrc = 'https://biztalks.azurewebsites.net/americansretirement/pages/index.html';
-            _Frame.autoOpen = false;
-            _Frame.width = 600;
-            _Frame.height = 600;
-            _Frame.title = FrameObject.title;
-            _Frame.resizable = true;
-            _Frame.modal = false;
-            _Frame.restoredHeight = 0;
-            _Frame.restoredWidth = 0;
-            _Frame.restoredTop = 0;
-            _Frame.restoredLeft = 0;
-            _Frame.iconClass = 'far fa-flag-usa';
-            
-            break;
-        }
-        case 'riskAssessment': {
-            iframeSrc = 'https://biztalks.azurewebsites.net/americansretirement/Pages/Matriculate/BT-IFrame-RiskAssessment.html';
-            _Frame.autoOpen = false;
-            _Frame.width = 700;
-            _Frame.height = 740;
-            _Frame.title = FrameObject.title;
-            _Frame.resizable = false;
-            _Frame.modal = false;
-            _Frame.restoredHeight = 0;
-            _Frame.restoredWidth = 0;
-            _Frame.restoredTop = 0;
-            _Frame.restoredLeft = 0;
-            _Frame.iconClass = 'far fa-user-chart';
-            break;
-        }
-        case 'selectModel': {
-            iframeSrc = 'https://biztalks.azurewebsites.net/americansretirement/Pages/Members/portfoliomodels.html';
-            _Frame.autoOpen = false;
-            _Frame.width = 1000;
-            _Frame.height = 500;
-            _Frame.title = FrameObject.title;
-            _Frame.resizable = false;
-            _Frame.modal = false;
-            _Frame.restoredHeight = 0;
-            _Frame.restoredWidth = 0;
-            _Frame.restoredTop = 0;
-            _Frame.restoredLeft = 0;
-            _Frame.iconClass = 'fa-duotone fa-radar';
-            break;
-        }
-        case 'selectAdvisor': {
-            iframeSrc = 'https://biztalks.azurewebsites.net/americansretirement/Pages/Members/pensionadvisors.html';
-            _Frame.autoOpen = false;
-            _Frame.width = 1000;
-            _Frame.height = 500;
-            _Frame.title = FrameObject.title;
-            _Frame.resizable = false;
-            _Frame.modal = false;
-            _Frame.restoredHeight = 0;
-            _Frame.restoredWidth = 0;
-            _Frame.restoredTop = 0;
-            _Frame.restoredLeft = 0;
-            _Frame.iconClass = 'fa-duotone fa-users-viewfinder';
-            break;
-        }
-        case 'showBiztalk': {
-            if (FrameObject.epoint == null || FrameObject.epoint == undefined) {
-                iframeSrc = `https://biztalks.azurewebsites.net/${FrameObject.id}`;
-            }
-            else {
-                iframeSrc = `https://biztalks.azurewebsites.net/${FrameObject.id}?epoint=${FrameObject.epoint}`;
-            }
-            _Frame.autoOpen = false;
-            _Frame.width = 1000;
-            _Frame.height = 700;
-            _Frame.title = FrameObject.title;
-            _Frame.resizable = false;
-            _Frame.modal = false;
-            _Frame.restoredHeight = 0;
-            _Frame.restoredWidth = 0;
-            _Frame.restoredTop = 0;
-            _Frame.restoredLeft = 0;
-            _Frame.iconClass = 'far fa-user-chart';
-            break;
-        }
-        case 'viewEquities': {
-            iframeSrc = `https://biztalks.azurewebsites.net/americansretirement/pages/members/viewstocks.html`;
-            _Frame.autoOpen = false;
-            _Frame.width = 1000;
-            _Frame.height = 700;
-            _Frame.title = FrameObject.title;
-            _Frame.resizable = false;
-            _Frame.modal = false;
-            _Frame.restoredHeight = 0;
-            _Frame.restoredWidth = 0;
-            _Frame.restoredTop = 0;
-            _Frame.restoredLeft = 0;
-            _Frame.iconClass = 'fa-duotone fa-chart-line-up';
-            break;
-        }
-        case 'createProfile': {
-            iframeSrc = `https://biztalks.azurewebsites.net/americansretirement/pages/members/createprofile.html?dialogname=${FrameObject.id}`;
-            _Frame.autoOpen = false;
-            _Frame.width = 600;
-            _Frame.height = 600;
-            _Frame.title = FrameObject.title;
-            _Frame.resizable = false;
-            _Frame.modal = false;
-            _Frame.restoredHeight = 0;
-            _Frame.restoredWidth = 0;
-            _Frame.restoredTop = 0;
-            _Frame.restoredLeft = 0;
-            _Frame.iconClass = 'fa-duotone fa-address-card';
-            break;
-        }
-        case 'memberLogin': {
-            iframeSrc = `https://biztalks.azurewebsites.net/americansretirement/pages/members/memberlogin.html?dialogname=${FrameObject.id}`;
-            _Frame.autoOpen = false;
-            _Frame.width = 600;
-            _Frame.height = 400;
-            _Frame.title = FrameObject.title;
-            _Frame.resizable = false;
-            _Frame.modal = false;
-            _Frame.restoredHeight = 0;
-            _Frame.restoredWidth = 0;
-            _Frame.restoredTop = 0;
-            _Frame.restoredLeft = 0;
-            _Frame.iconClass = 'far fa-user-chart';
-            break;
-        }
-        case 'assetAllocationBaseModels': {
-            iframeSrc = `https://biztalks.azurewebsites.net/americansretirement/pages/members/baseassetallocationmodels.html`;
-            _Frame.autoOpen = false;
-            _Frame.width = 1100;
-            _Frame.height = 720;
-            _Frame.title = FrameObject.title;
-            _Frame.resizable = true;
-            _Frame.modal = false;
-            _Frame.restoredHeight = 0;
-            _Frame.restoredWidth = 0;
-            _Frame.restoredTop = 0;
-            _Frame.restoredLeft = 0;
-            _Frame.iconClass = 'far fa-pie-chart';
-            break;
-        }
-        case 'assetAllocationBaseModelChart': {
-            iframeSrc = `https://biztalks.azurewebsites.net/americansretirement/pages/members/baseassetallocationchart.html?basemodel=${FrameObject.basemodel}`;
+        case 'login': {
+            iframeSrc = `componentpages/login.html`;
             _Frame.autoOpen = false;
             _Frame.width = 500;
+            _Frame.height = 600;
+            _Frame.title = FrameObject.title;
+            _Frame.resizable = true;
+            _Frame.modal = false;
+            _Frame.restoredHeight = 0;
+            _Frame.restoredWidth = 0;
+            _Frame.restoredTop = 0;
+            _Frame.restoredLeft = 0;
+            _Frame.iconClass = 'fa-duotone fa-file-user';
+            break;
+        }
+        case 'step_1-0': {
+            iframeSrc = `componentpages/workflow/step_1-0.html`;
+            _Frame.autoOpen = false;
+            _Frame.width = 600;
             _Frame.height = 500;
             _Frame.title = FrameObject.title;
             _Frame.resizable = true;
@@ -174,22 +47,52 @@ let Frame = function (FrameObject) {
             _Frame.restoredWidth = 0;
             _Frame.restoredTop = 0;
             _Frame.restoredLeft = 0;
-            _Frame.iconClass = 'far fa-pie-chart';
+            _Frame.iconClass = 'fa-regular fa-layer-plus';
             break;
         }
-        case 'videoMeeting': {
-            iframeSrc = `https://biztalks.azurewebsites.net/americansretirement/pages/members/adhoc-videomeeting.html`;
+        case 'step_1-1': {
+            iframeSrc = `componentpages/workflow/step_1-1.html?inputfield1=${FrameObject.inputfield1}&inputfield2=${FrameObject.inputfield2}`;
             _Frame.autoOpen = false;
-            _Frame.width = 1000;
-            _Frame.height = 700;
+            _Frame.width = 600;
+            _Frame.height = 500;
             _Frame.title = FrameObject.title;
-            _Frame.resizable = false;
+            _Frame.resizable = true;
             _Frame.modal = false;
             _Frame.restoredHeight = 0;
             _Frame.restoredWidth = 0;
             _Frame.restoredTop = 0;
             _Frame.restoredLeft = 0;
-            _Frame.iconClass = 'far fa-video';
+            _Frame.iconClass = 'fa-regular fa-layer-plus';
+            break;
+        }
+        case 'step_1-2': {
+            iframeSrc = `componentpages/workflow/step_1-2.html`;
+            _Frame.autoOpen = false;
+            _Frame.width = 600;
+            _Frame.height = 500;
+            _Frame.title = FrameObject.title;
+            _Frame.resizable = true;
+            _Frame.modal = false;
+            _Frame.restoredHeight = 0;
+            _Frame.restoredWidth = 0;
+            _Frame.restoredTop = 0;
+            _Frame.restoredLeft = 0;
+            _Frame.iconClass = 'fa-regular fa-layer-plus';
+            break;
+        }
+        case 'LoginCoding': {
+            iframeSrc = `componentpages/coding/login.html`;
+            _Frame.autoOpen = false;
+            _Frame.width = 600;
+            _Frame.height = 500;
+            _Frame.title = FrameObject.title;
+            _Frame.resizable = true;
+            _Frame.modal = false;
+            _Frame.restoredHeight = 0;
+            _Frame.restoredWidth = 0;
+            _Frame.restoredTop = 0;
+            _Frame.restoredLeft = 0;
+            _Frame.iconClass = 'fa-sharp fa-solid fa-circle-info';
             break;
         }
     }

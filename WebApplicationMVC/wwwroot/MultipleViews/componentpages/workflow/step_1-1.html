@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+    <link href="https://vjs.zencdn.net/8.0.4/video-js.css" rel="stylesheet" />
+    <script src="https://vjs.zencdn.net/8.0.4/video.min.js"></script>
+    <script src="https://kit.fontawesome.com/a4984d79d1.js" crossorigin="anonymous"></script>
+    <script src="../../js/device.js"></script>
+    <script src="../../js/jquery/blockui.js"></script>
+    <!--<script src="https://malsup.github.io/jquery.blockUI.js"></script>-->
+</head>
+<body style="padding:20px">
+    <script>
+
+        function escapeRegExp(string) {
+            return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+        }
+
+        var queryParams = window.location.search.substring(1).split('&');
+        function GetQueryStringVar(_name, _keyvalpairs) {
+            for (var i = 0; i < _keyvalpairs.length; i++) {
+                var _param = _keyvalpairs[i].split('=');
+                console.log('GetQueryStringVar: ' + _param[0].toLowerCase());
+                if (_param[0].toLowerCase() === _name) {
+                    return _param[1];
+                }
+            }
+            return null;
+        }
+
+        let state = {};
+        state.inputField1 = GetQueryStringVar('inputfield1', queryParams);
+        state.inputField2 = GetQueryStringVar('inputfield2', queryParams);
+
+        $(function () {
+            $('#inputfield1').val(state.inputField1);
+            $('#inputfield2').val(state.inputField2);
+        })
+        let device = new Device('step_1-1.html');
+
+        function GetEnrichedData() {
+            $.blockUI({ message: 'Enriching Data' });
+
+            setTimeout(function () {
+                let jObject = {};
+                jObject.correlationId = device.GenerateUUID();
+                jObject.methodname = 'EnrichData';
+                jObject.inputfield1 = state.inputField1;
+                jObject.inputfield2 = state.inputField2;
+
+
+                let request = jObject;
+                let result = JSON.parse(parent.Post2Server(request, "getEnrichedData").responseText);
+                console.log(`result= ${result}`);
+                console.log(`key= ${result.Key}`);
+                console.log(`value= ${result.Value}`);
+                $('#inputfieldEnrich1').val(result.Key);
+                $('#inputfieldEnrich2').val(result.Value);
+                $.unblockUI();
+
+            }, 500);
+        }
+
+        function nextStep() {
+            /// create the json object that is passed into the parent.createFrame method to launch next frame
+            let frameObject = {};
+            frameObject.applicationName = 'step_1-2';
+            frameObject.title = 'Workflow Step #3';
+            parent.createFrame(frameObject);
+
+        }
+    </script>
+    <!-- Bootstrap Form Input -->
+    <div id="" class="modal-dialog">
+        <div id="" class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title col-12" id="" style="margin-bottom:0px">
+                    <span id="">Input Field Values</span>
+                </h5>
+            </div>
+            <form class="row g-3">
+                <div class="col-12" id="captionText">
+                    <div class="form-group">
+                        <label for="inputfield1" class="form-label"> Input Field #1 </label>
+                        <input type="text" class="form-control" id="inputfield1" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputfield2" class="form-label"> Input Field #2 </label>
+                        <input type="text" class="form-control" id="inputfield2" placeholder="">
+                    </div>
+                </div>
+            </form>
+            <!--This button will launch the 2nd step in the workflow and pass the values within the Input Fields-->
+            <button class="btn btn-primary" type="button" id="preview" onclick="GetEnrichedData()">Enrich Data</button>
+            <form class="row g-3">
+                <div class="col-12" id="captionText">
+                    <div class="form-group">
+                        <label for="inputfieldEnrich1" class="form-label"> Input Field #1 </label>
+                        <input type="text" class="form-control" id="inputfieldEnrich1" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputfieldEnrich2" class="form-label"> Input Field #2 </label>
+                        <input type="text" class="form-control" id="inputfieldEnrich2" placeholder="">
+                    </div>
+                </div>
+            </form>
+            <hr />
+
+            <div class="row g-3" style="text-align:center">
+                <hr />
+                <h4 id="" style="margin-top: 10px;" class="class="col-12">
+                   
+                </h4>
+                <button onclick="nextStep()" style="margin-left:0px" id="" class="btn btn-success">Next Step</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
