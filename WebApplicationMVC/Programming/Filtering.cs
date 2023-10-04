@@ -30,7 +30,7 @@ namespace WebApplicationMVC.Programming
             string string2Parse = string.Empty;
             Task[] tasks = new Task[Partitions];
             int i = 0;
-            foreach (Task task in tasks)
+            foreach (Task task in tasks.AsParallel())
             {
                 await (tasks[i] = Task.Run(async () =>
                 {

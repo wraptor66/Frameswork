@@ -1,6 +1,6 @@
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
-using WebApplicationMVC.Programming;
+using WebApplicationMVC.Data;
 
 namespace FramesworkTestProject
 {
@@ -427,7 +427,7 @@ namespace FramesworkTestProject
             // Write result
             elapsedAsync.Add(new KeyValuePair<string, double>
                 ("Async", stopwatch.Elapsed.TotalMilliseconds));
-
+            
             Assert.IsTrue(@string.Count == 0);
         }
 
@@ -451,16 +451,8 @@ namespace FramesworkTestProject
             // Create new stopwatch
             Stopwatch stopwatch = new Stopwatch();
 
-            // Begin timing
-            stopwatch.Start();
-
-            @string = filtering.GetFilteredObjectsForEach();
-
-            // Stop timing
-            stopwatch.Stop();
-
             //clear stopwatch
-            stopwatch.Restart();
+            stopwatch.Start();
 
             @string = filtering.GetFilteredObjectsAsync().Result;
 
@@ -471,10 +463,16 @@ namespace FramesworkTestProject
             elapsedAsync.Add(new KeyValuePair<string, double>
                 ("Async", stopwatch.Elapsed.TotalMilliseconds));
 
+            // Begin timing
+            stopwatch.Restart();
 
-            // Write result
+            @string = filtering.GetFilteredObjectsForEach();
+
+            // Stop timing
+            stopwatch.Stop();
+
             elapsedAsync.Add(new KeyValuePair<string, double>
-                ("ForEach", stopwatch.Elapsed.TotalMilliseconds));
+           ("ForEach", stopwatch.Elapsed.TotalMilliseconds));
 
             //clear stopwatch
             stopwatch.Restart();
@@ -523,8 +521,20 @@ namespace FramesworkTestProject
             // Create new stopwatch
             Stopwatch stopwatch = new Stopwatch();
 
-            // Begin timing
+            //clear stopwatch
             stopwatch.Start();
+
+            @string = filtering.GetFilteredObjectsAsync().Result;
+
+            // Stop timing
+            stopwatch.Stop();
+
+            // Write result
+            elapsedAsync.Add(new KeyValuePair<string, double>
+                ("Async", stopwatch.Elapsed.TotalMilliseconds));
+
+            // Begin timing
+            stopwatch.Restart();
 
             @string = filtering.GetFilteredObjectsForEach();
 
@@ -557,19 +567,8 @@ namespace FramesworkTestProject
 
             // Write result
             elapsedAsync.Add(new KeyValuePair<string, double>
-                ("AsParallel", stopwatch.Elapsed.TotalMilliseconds));
+                ("Parallel", stopwatch.Elapsed.TotalMilliseconds));
 
-            //clear stopwatch
-            stopwatch.Restart();
-
-            @string = filtering.GetFilteredObjectsAsync().Result;
-
-            // Stop timing
-            stopwatch.Stop();
-
-            // Write result
-            elapsedAsync.Add(new KeyValuePair<string, double>
-                ("Async", stopwatch.Elapsed.TotalMilliseconds));
 
             Assert.IsTrue(@string.Count == 40000);
         }

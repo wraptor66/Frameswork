@@ -1,7 +1,7 @@
 ﻿
 using Newtonsoft.Json.Linq;
 
-namespace WebApplicationMVC.Programming
+namespace WebApplicationMVC.Data
 {
 
     public static class DataLists
