@@ -7,5 +7,5 @@ At a time when programming is becoming more and more segmented, Frame(s)work cut
 Frame(s)work is a 'Full-Stack' framework. It provides a complete programming solution for HTML5 to Web APIs to Data Repos without the complications of separate programming paradigms. 
 
 
-# Frame(s)work
+
 To learn more about Frameswork visit https://frameswork.org
