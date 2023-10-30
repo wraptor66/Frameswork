@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+    <link href="https://vjs.zencdn.net/8.0.4/video-js.css" rel="stylesheet" />
+    <script src="https://vjs.zencdn.net/8.0.4/video.min.js"></script>
+    <script src="https://kit.fontawesome.com/a4984d79d1.js" crossorigin="anonymous"></script>
+    <script src="../../js/device.js"></script>
+    <script src="../../js/jquery/blockui.js"></script>
+
+    <!--Here we are adding the DataTables.net Data Tables with responsiveness-->
+    <link href="//cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="//cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+</head>
+<body style="padding:20px">
+    <script>
+
+        function escapeRegExp(string) {
+            return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+        }
+
+        var queryParams = window.location.search.substring(1).split('&');
+        function GetQueryStringVar(_name, _keyvalpairs) {
+            for (var i = 0; i < _keyvalpairs.length; i++) {
+                var _param = _keyvalpairs[i].split('=');
+                console.log('GetQueryStringVar: ' + _param[0].toLowerCase());
+                if (_param[0].toLowerCase() === _name) {
+                    return _param[1];
+                }
+            }
+            return null;
+        }
+
+        /// code block to reuse if there was a query string variable
+        //var variable1 = GetQueryStringVar('variable1', queryParams);
+ 
+
+        let state = {};
+        state.userName = '';
+        state.password = '';
+
+        $(function () {
+            try {
+                /// gather the user details from the index.html 'statemanager' object
+                state.userName = parent.get_userProfile().UserId;
+                state.password = parent.get_userProfile().Password;
+                /// the page has loaded
+                /// add code for HTML modifications
+                $('#userName').val(state.userName);
+                $('#password').val(state.password);
+            }
+            catch (err) {
+                alert(err);
+            }
+
+        })
+        let device = new Device('step_1-2.html');
+        function getData() {
+            try {
+                $.blockUI({ message: 'Gathering Data' });
+                setTimeout(function () {
+                    try {
+                        let jObject = {};
+                        jObject.correlationId = device.GenerateUUID();
+                        jObject.methodname = 'GetDataSet';
+
+                        let request = jObject;
+                        /// there are 2 ways to collect the information displayed in the datatable
+                        /// 1
+                        /// first is to call the 'parent.Post2Server'
+                        //let result = parent.Post2Server(request, "getDataSet").responseText;
+                        //console.log(`result= ${result}`);
+                        //let data = JSON.parse(result);
+
+                        /// 2
+                        /// second is to call the 'get' accessor of the index 'StateManager' -> stateManager.userProfileDetails.DataSet = '';
+                        /// call the web api and load the dataset data into the 'index.html' stateManager
+                        parent.Post2Server(request, "getDataSet").responseText;
+                        let result = parent.get_userProfileDetails_DataSet();
+                        console.log(`result= ${result}`);
+                        let data = JSON.parse(result);
+
+                        $('#myTable').DataTable({
+                            data: data,
+                            columns: [
+                                { data: 'category', title: 'Category' },
+                                { data: 'author', title: 'Author' },
+                                { data: 'title', title: 'Title' },
+                                { data: 'price', title: 'Price' }
+                            ]
+                        });
+                        $.unblockUI();
+                }
+            catch (err) {
+
+                    alert(err);
+                }
+                }, 500);
+            }
+            catch (err) {
+
+                alert(err);
+            }
+        }
+
+    </script>
+    <!-- Bootstrap Form Input -->
+    <div id="" class="modal-dialog">
+        <div id="" class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title col-12" id="" style="margin-bottom:0px">
+                    <span id="">Logged In User Profile</span>
+                </h5>
+            </div>
+            <form class="row g-3">
+                <div class="col-12" id="captionText">
+                    <div class="form-group">
+                        <label for="userName" class="form-label"> User Name </label>
+                        <input type="text" class="form-control" id="userName" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="form-label"> Password </label>
+                        <input type="text" class="form-control" id="password" placeholder="">
+                    </div>
+                </div>
+            </form>
+            <!--This button will launch the 2nd step in the workflow and pass the values within the Input Fields-->
+            <button class="btn btn-primary" type="button" id="" onclick="getData()"> Get </button>
+            <form class="row g-3">
+                <table class="col-12 display" id="myTable">
+                </table>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

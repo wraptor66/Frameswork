@@ -57,8 +57,8 @@ function setFrameLocation (Frames, id, top, left, height, width) {
         {
             value.restoredHeight = height;
             value.restoredWidth = width;
-            value.restoredTop = parseInt(top.toString().substring(0, top.length - 2));
-            value.restoredLeft = parseInt(left.toString().substring(0, left.length - 2));
+            value.restoredTop = parseInt(top);
+            value.restoredLeft = parseInt(left);
         }
     });
 return Frame;

@@ -25,7 +25,7 @@ function modifyFrame (Frames, filterField, filterValue, field2Modify, modifyValu
         */
 
         switch (filterField) {
-            /// di`/////splayState: visible|minimized|absent|null
+            /// displayState: visible|minimized|absent|null
             case "id": {
                 if (value.id === filterValue) {
                     value[field2Modify] = modifyValue;
