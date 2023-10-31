@@ -715,6 +715,16 @@
             $('#btn_' + frame).button("destroy");
   
         }
+
+        /// in the single frame view there is no taskbar items
+        /// in the case of 'home' button clicked, all frames will be closed
+        function closeFrames() {
+            /// loop through the collection of forms
+            $.each(stateManager.windowPanesCollection, function (key, value) {
+                $(`#${value.id}`).remove();
+            });
+            return false;
+        }
     </script>
 </body>
 </html>
