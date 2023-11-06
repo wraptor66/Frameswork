@@ -161,8 +161,7 @@
             box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
         }
 
-        .backgrd{
-
+        .backgrd {
         }
 
         .button {
@@ -203,6 +202,20 @@
             font-size: 1.5vw;
         }
     </style>
+    <!--query string variables-->
+    <script>
+        var queryParams = window.location.search.substring(1).split('&');
+        function GetQueryStringVar(_name, _keyvalpairs) {
+            for (var i = 0; i < _keyvalpairs.length; i++) {
+                var _param = _keyvalpairs[i].split('=');
+                console.log('GetQueryStringVar: ' + _param[0].toLowerCase());
+                if (_param[0].toLowerCase() === _name) {
+                    return _param[1];
+                }
+            }
+            return null;
+        }
+    </script>
     <!--
     The key to the frames display is to manage the z-index values. the algorithm for z-index values will be as follows
         the z-index layer for popups will be between 40000-49999
@@ -222,10 +235,15 @@
                 <div style="width:100%;"><i style="color:white" class="fa-duotone fa-hat-wizard fa-2x" onclick="openPage('StartWorkflow');"></i></div>
                 <span style="width: 100%;font-size: 10px">Workflow Example</span>
             </div>
+            <div id="shortcutAbout" style="text-align: center; width: 120px; position: fixed; top: 250px; left: 50px; color: white">
+                <!--Frame(s)work favors simplicity. calling the openPage() from the onclick is easy enough. no need for obfuscation-->
+                <div style="width:100%;"><i style="color:white" class="fa-duotone fa-circle-info fa-2x" onclick="openPage('AboutFrameswork');"></i></div>
+                <span style="width: 100%;font-size: 10px">About Frameswork</span>
+            </div>
         </div>
-        <div style="float: left; width: 250px; left: 200px; top: 100px; position: absolute">
+        <!--<div style="float: left; width: 250px; left: 200px; top: 100px; position: absolute">
             <p>The index.html page provide the centralized processing and storage for the entire application.</p>
-        </div>
+        </div>-->
         <div id="minimizeBar" class="taskbar Z100000" style="width:100%;height:55px;position:fixed;bottom:0px;">
             <div style="margin-top: 0px; position: absolute; left: 10px; background-color: #f3f3f3" class="" id="button4" onclick="ShowStart()"><img id="startIcon" style="" width="55" src="content/images/Frameswork_Sq_250.png" /></div>
             <button style="margin-top: 5px; position: absolute; left: 150px; opacity: 1; background-color: #f3f3f3" class="button button3" id="button5"><i style="color:black" class="fa-duotone fa-eye-slash fa-2x"></i></button>
@@ -238,8 +256,9 @@
             </div>
             <hr />
             <div style="margin-left:20px" class="btn-group-vertical">
-                <button type="button" class="btn btn-outline-secondary" id="startButton" style="text-align:left;color:black"><i class="fa-solid fa-user"></i>&nbsp; Login</button>
-                <button type="button" class="btn btn-outline-secondary" id="startButton0" style="text-align:left;color:black"><i class="fa-duotone fa-address-card"></i>&nbsp; Workflow</button>
+                <button type="button" class="btn btn-outline-secondary" id="startButton" style="text-align:left;color:black;width:300px"><i class="fa-solid fa-user"></i>&nbsp; Login</button>
+                <button type="button" class="btn btn-outline-secondary" id="startButton0" style="text-align: left; color: black; width: 300px"><i class="fa-duotone fa-address-card"></i>&nbsp; Workflow</button>
+                <button type="button" class="btn btn-outline-secondary" id="startButton1" style="text-align: left; color: black; width: 300px"><i class="fa-duotone fa-circle-info"></i>&nbsp; About Frame(s)work</button>
             </div>
         </div>
     </div>
@@ -247,6 +266,10 @@
         let myDevice = new Device("index");
         /// state manager object declaration
         let stateManager = {};
+        stateManager.desktop = true;
+        function getDesktopActive() {
+            return stateManager.desktop;
+        }
         /// z-index frame top
         stateManager.zIndex = 20000;
         function getTopFrameZIndex() {
@@ -419,58 +442,61 @@
         function windowSize() {
             if (window.innerWidth < 800) { //shift to single view
                 $("#minimizeBar").hide();
+                stateManager.desktop = false;
             }
             else {//shift to multi view
                 $("#minimizeBar").show();
+                stateManager.desktop = true;
             }
-                /// loop through the collection of forms
-                $.each(stateManager.windowPanesCollection, function (key, value) {
-                    //check the innerwidth for a breakpoint 
-                    if (window.innerWidth < 800) { //shift to single view
-                        //value.restoredHeight = value.height;
-                        //value.restoredWidth = value.width;
-                        //value.restoredTop = value.top;
-                        //value.restoredLeft = value.left;
-                        ///actual frame
-                        $("#" + value.id).css('top', `${0}px`);
-                        $("#" + value.id).css('left', `${0}px`);
-                        $("#" + value.id).css('width', `${window.innerWidth}px`);
-                        $("#" + value.id).css('height', `${window.innerHeight}px`);
-                        ///iframes
-                        $("#iframe_" + value.id).css('width', `${window.innerWidth - 40}px`);
-                        $("#iframe_" + value.id).css('height', `${window.innerHeight - 80}px`);
-                        ///nav
-                        $("#nav_" + value.id).css('width', `${window.innerWidth - 20}px`);
-                        $(`#btnFrameCloseBack_${value.id}`).show();
-                        $(`#btnFramesClose_${value.id}`).show();
-                        $(`#btnFrameMinimize_${value.id}`).hide();
-                        $(`#btnFrameMaximize_${value.id}`).hide();
-                        $(`#btnFrameClose_${value.id}`).hide();
-                       
-                    }
-                    else { //shift to multi view
-                        value.height = value.restoredHeight;
-                        value.width = value.restoredWidth;
-                        value.top = value.restoredTop;
-                        value.left = value.restoredLeft;
-                        ///actual frame
-                        $("#" + value.id).css('top', `${value.top}px`);
-                        $("#" + value.id).css('left', `${value.left}px`);
-                        $("#" + value.id).css('width', `${value.width}px`);
-                        $("#" + value.id).css('height', `${value.height}px`);
-                        ///iframes
-                        $("#iframe_" + value.id).css('width', `${value.width - 40}px`);
-                        $("#iframe_" + value.id).css('height', `${value.height - 80}px`);
-                        ///nav
-                        $("#nav_" + value.id).css('width', `${value.width - 20}px`);
-                        $(`#btnFrameCloseBack_${value.id}`).hide();
-                        $(`#btnFramesClose_${value.id}`).hide();
-                        $(`#btnFrameMinimize_${value.id}`).show();
-                        $(`#btnFrameMaximize_${value.id}`).show();
-                        $(`#btnFrameClose_${value.id}`).show();
-                    }
+            /// loop through the collection of forms
+            $.each(stateManager.windowPanesCollection, function (key, value) {
+                //check the innerwidth for a breakpoint
+                if (window.innerWidth < 800) { //shift to single view
+                    //value.restoredHeight = value.height;
+                    //value.restoredWidth = value.width;
+                    //value.restoredTop = value.top;
+                    //value.restoredLeft = value.left;
+                    ///actual frame
+                    $("#" + value.id).css('top', `${0}px`);
+                    $("#" + value.id).css('left', `${0}px`);
+                    $("#" + value.id).css('width', `${window.innerWidth}px`);
+                    $("#" + value.id).css('height', `${window.innerHeight}px`);
+                    ///iframes
+                    $("#iframe_" + value.id).css('width', `${window.innerWidth - 40}px`);
+                    $("#iframe_" + value.id).css('height', `${window.innerHeight - 80}px`);
+                    ///nav
+                    $("#nav_" + value.id).css('width', `${window.innerWidth - 20}px`);
+                    $(`#btnFrameCloseBack_${value.id}`).show();
+                    $(`#btnFramesClose_${value.id}`).show();
+                    $(`#btnFrameMinimize_${value.id}`).hide();
+                    $(`#btnFrameMaximize_${value.id}`).hide();
+                    $(`#btnFrameClose_${value.id}`).hide();
 
-                });
+                }
+                else { //shift to multi view
+                    stateManager.desktop = true;
+                    value.height = value.restoredHeight;
+                    value.width = value.restoredWidth;
+                    value.top = value.restoredTop;
+                    value.left = value.restoredLeft;
+                    ///actual frame
+                    $("#" + value.id).css('top', `${value.top}px`);
+                    $("#" + value.id).css('left', `${value.left}px`);
+                    $("#" + value.id).css('width', `${value.width}px`);
+                    $("#" + value.id).css('height', `${value.height}px`);
+                    ///iframes
+                    $("#iframe_" + value.id).css('width', `${value.width - 40}px`);
+                    $("#iframe_" + value.id).css('height', `${value.height - 80}px`);
+                    ///nav
+                    $("#nav_" + value.id).css('width', `${value.width - 20}px`);
+                    $(`#btnFrameCloseBack_${value.id}`).hide();
+                    $(`#btnFramesClose_${value.id}`).hide();
+                    $(`#btnFrameMinimize_${value.id}`).show();
+                    $(`#btnFrameMaximize_${value.id}`).show();
+                    $(`#btnFrameClose_${value.id}`).show();
+                }
+
+            });
             return false;
         }
 
@@ -479,25 +505,32 @@
 
 
         /// this method provides shortcuts to launch a frame with the pageName
-        function openPage(pageName) {
+        function openPage(pageName, position) {
             let frameObject = {};
-            switch (pageName) {
-                case "Login":
-                    {
-                        frameObject.applicationName = 'login';
-                        frameObject.title = 'Login User';
-                        break;
-                    }
-                case "StartWorkflow":
-                    {
-                        frameObject.applicationName = 'step_1-0';
-                        frameObject.title = 'Workflow Step 1';
-                        break;
-                    }
-                case "LoginCoding": {
+            switch (pageName.toLowerCase()) {
+                case "login": {
+                    frameObject.applicationName = 'login';
+                    frameObject.title = 'Login User';
+                    break;
+                }
+                case "startworkflow": {
+                    frameObject.applicationName = 'step_1-0';
+                    frameObject.title = 'Workflow Step 1';
+                    break;
+                }
+                case "logincoding": {
                     frameObject.applicationName = 'LoginCoding';
                     frameObject.title = 'Explaining the Sample Project';
+                    break;
                 }
+                case "aboutframeswork": {
+                    frameObject.applicationName = 'AboutFrameswork';
+                    frameObject.title = 'Explaining Frame(s)work';
+                    break;
+                }
+            }
+            if (position != null) {
+                frameObject.viewportPosition = position;
             }
             createFrame(frameObject);
         }
@@ -547,6 +580,13 @@
         })
 
         // Button
+        $('#startButton1').click(function () {
+            openPage('aboutframeswork','center');
+            ShowStart();
+            return false;
+        })
+
+        // Button
         $('#button2').click(function () {
             $("#" + testWindowPane.id).parent().show();
             return false;
@@ -557,7 +597,7 @@
             $('#dialog_simple').dialog('open');
             return false;
         })
-        
+
         // Button
         $('#button5').click(function () {
             /// loop through the collection of forms
@@ -584,7 +624,12 @@
                 ////createWindowPane('memberLogin');
             }
             setInterval(displayTime, 1000);
-
+            windowSize();
+            ///open page based on initialpage querystringvar
+            let initialpage = GetQueryStringVar('initialpage', queryParams);
+            if (initialpage != null) {
+                openPage(initialpage,'center');
+            }
         })
 
         function ShowStart() {
@@ -599,7 +644,7 @@
                 //alert(stateManager.startButtonState + '==true')
             }
         }
-        
+
 
         // this method captures global clicking
         window.addEventListener("click", function (event) {
@@ -634,11 +679,10 @@
             newFrame.displayState = "visible";
             /// add windowPane object to collectionI
             stateManager.windowPanesCollection.push(newFrame)
-
             ///// create a button in minimize taskbar
             let abbreviatedTitle = (newFrame.title.length > 15) ? `${newFrame.title.substring(0, 12)}...` : newFrame.title;
-            $('#minimizeBar').append(`<button onclick="$('#${newFrame.id}').show();" style="margin-top:5px; background-color: #f3f3f3" class="button button3" id="btn_${newFrame.id}"><i style="color:black" class="${newFrame.iconClass}"></i></button>`)
-            //if the window size < 800 
+            $('#minimizeBar').append(`<button onclick="$('#${newFrame.id}').show();" style="margin-top:5px; background-color: #f3f3f3" class="button button3" id="btn_${newFrame.id}"><i style="color:black" class="${newFrame.iconClass}  fa-2x"></i></button>`)
+            //if the window size < 800
             if (window.innerWidth < 800) { //shift to single view
                 $("#" + newFrame.id).css('top', `${0}px`);
                 $("#" + newFrame.id).css('left', `${0}px`);
@@ -649,6 +693,12 @@
                 $("#iframe_" + newFrame.id).css('height', `${window.innerHeight - 80}px`);
                 ///nav
                 $("#nav_" + newFrame.id).css('width', `${window.innerWidth - 20}px`);
+                ///CONTROLBOX
+                $(`#btnFrameCloseBack_${newFrame.id}`).show();
+                $(`#btnFramesClose_${newFrame.id}`).show();
+                $(`#btnFrameMinimize_${newFrame.id}`).hide();
+                $(`#btnFrameMaximize_${newFrame.id}`).hide();
+                $(`#btnFrameClose_${newFrame.id}`).hide();
             }
 
             $(`#${newFrame.id}`).show();
@@ -665,8 +715,6 @@
                                 ui.helper[0].clientWidth);
                         }
                 });
-            
-
 
             setTimeout(function () {
                 $('#iframe_' + newFrame.id).attr('src', newFrame.src)
@@ -684,20 +732,20 @@
                 //alert(`${_width}, ${_height}, ${_top}, ${_left}`);
                 setFrameLocation(stateManager.windowPanesCollection, meWindowPane.id, _top, _left, _height, _width)
                 $("#" + meWindowPane.id).css('width', $(window).width());
-                $("#iframe_" + meWindowPane.id).css('width', $(window).width()-40);
-                $("#nav_" + meWindowPane.id).css('width', $(window).width()-20);
-                $("#" + meWindowPane.id).css('height', $(window).height()-50);
-                $("#iframe_" + meWindowPane.id).css('height', $(window).height() - 170);                
+                $("#iframe_" + meWindowPane.id).css('width', $(window).width() - 40);
+                $("#nav_" + meWindowPane.id).css('width', $(window).width() - 20);
+                $("#" + meWindowPane.id).css('height', $(window).height() - 50);
+                $("#iframe_" + meWindowPane.id).css('height', $(window).height() - 170);
                 $("#" + meWindowPane.id).css('top', 0);
                 $("#" + meWindowPane.id).css('left', 0);
                 $(`#iconFrameMaximize_${frame}`).removeClass('fa-window-maximize').addClass('fa-window-restore');
             }
             else if ($(`#iconFrameMaximize_${frame}`).hasClass('fa-window-restore')) {
                 $("#" + meWindowPane.id).css('width', meWindowPane.restoredWidth);
-                $("#iframe_" + meWindowPane.id).css('width', meWindowPane.restoredWidth-40);
-                $("#nav_" + meWindowPane.id).css('width', meWindowPane.restoredWidth-20);
+                $("#iframe_" + meWindowPane.id).css('width', meWindowPane.restoredWidth - 40);
+                $("#nav_" + meWindowPane.id).css('width', meWindowPane.restoredWidth - 20);
                 $("#" + meWindowPane.id).css('height', meWindowPane.restoredHeight);
-                $("#iframe_" + meWindowPane.id).css('height', meWindowPane.restoredHeight-120);
+                $("#iframe_" + meWindowPane.id).css('height', meWindowPane.restoredHeight - 120);
                 $("#" + meWindowPane.id).css('top', meWindowPane.restoredTop);
                 $("#" + meWindowPane.id).css('left', meWindowPane.restoredLeft);
                 $(`#iconFrameMaximize_${frame}`).removeClass('fa-window-restore').addClass('fa-window-maximize');
@@ -709,11 +757,11 @@
         }
 
         function closeFrame(frame) {
-            $(`#${frame}`).remove();            
+            $(`#${frame}`).remove();
             $('#btn_' + frame).hide();
             $('#btn_' + frame).remove();
             $('#btn_' + frame).button("destroy");
-  
+
         }
 
         /// in the single frame view there is no taskbar items
@@ -722,6 +770,9 @@
             /// loop through the collection of forms
             $.each(stateManager.windowPanesCollection, function (key, value) {
                 $(`#${value.id}`).remove();
+                $('#btn_' + value.id).hide();
+                $('#btn_' + value.id).remove();
+                $('#btn_' + value.id).button("destroy");
             });
             return false;
         }
