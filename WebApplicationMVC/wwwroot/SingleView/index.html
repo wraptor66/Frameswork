@@ -436,6 +436,10 @@
                     frameObject.applicationName = 'LoginCoding';
                     frameObject.title = 'Explaining the Sample Project';
                 }
+                case "DetailsForm": {
+                    frameObject.applicationName = 'DetailsForm';
+                    frameObject.title = 'DetailsForm';
+                }
             }
             createFrame(frameObject);
         }
@@ -476,7 +480,7 @@
             // create a button in minimize taskbar
             let abbreviatedTitle = (newFrame.title.length > 15) ? `${newFrame.title.substring(0, 12)}...` : newFrame.title;
             $('#minimizeBar').append(`<button onclick="$('#${newFrame.id}').show();" style="margin-top:5px; background-color: #f3f3f3"
-                    class="button button3" id="btn_${newFrame.id}"><i style="color:black" class="${newFrame.iconClass}"></i></button>`)
+                        class="button button3" id="btn_${newFrame.id}"><i style="color:black" class="${newFrame.iconClass}"></i></button>`)
             $(`#${newFrame.id}`).show();
             $(`#${newFrame.id}`).draggable();
         }
@@ -503,10 +507,10 @@
             requestObject.typename = UIEventMessage;
             Post2Server(requestObject, '');
         }
-
-
+        
         $(function () {
-            openPage('Login');
+            let ClickedLink = localStorage.getItem('clickedLink');
+            openPage(ClickedLink);
         })
 
     </script>

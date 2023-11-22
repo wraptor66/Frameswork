@@ -4,8 +4,14 @@
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <a style="width:100%" href="~/singleview/index.html">Single View Sample</a>&nbsp;
+    <a style="width:100%" href="~/singleview/index.html" onclick="storeClickedLink('Login')">Single View Sample</a>&nbsp;
     <a style="width:100%" href="~/multipleviews/index.html">Multiple View Sample</a>&nbsp;
     <a style="width:100%" href="~/reactiveview/index.html">Reactive View Sample</a>
+    <a style="width:100%" href="~/singleview/index.html" onclick="storeClickedLink('DetailsForm')">Details View</a>
 </div>
 
+<script>
+       function storeClickedLink(link) {
+           localStorage.setItem('clickedLink', link);
+       }
+</script>
