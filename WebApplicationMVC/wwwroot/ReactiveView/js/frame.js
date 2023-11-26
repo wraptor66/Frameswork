@@ -95,6 +95,21 @@ let Frame = function (FrameObject) {
             _Frame.iconClass = 'fa-sharp fa-solid fa-circle-info';
             break;
         }
+        case 'TinyMCEditor': {
+            iframeSrc = `componentpages/examples/tinymceinputs.html`;
+            _Frame.autoOpen = false;
+            _Frame.width = 600;
+            _Frame.height = 500;
+            _Frame.title = FrameObject.title;
+            _Frame.resizable = true;
+            _Frame.modal = false;
+            _Frame.restoredHeight = 0;
+            _Frame.restoredWidth = 0;
+            _Frame.restoredTop = 0;
+            _Frame.restoredLeft = 0;
+            _Frame.iconClass = 'fa-solid fa-newspaper';
+            break;
+        }            
     }
 
     _Frame.src = iframeSrc;/// address of the iframe webpage
