@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/a4984d79d1.js" crossorigin="anonymous"></script>
+    <script src="../../js/jquery/blockui.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js" integrity="sha384-tc3TMXCcTCib89yECEQXI4e6DhhlwNrqzYpvyeSqBD2vB/KugQH7o3p+/UtKuS5L" crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- Bootstrap Form Input -->
+    <div class="container">
+        <div class="card mx-auto" style="max-width: 760px;">
+            <div class="card-body" id="divForm">
+                <h1 class="h1 title">Show Details<i id="userDetails" style="float:right;color:lightseagreen" class="fa-sharp fa-solid fa-eye"></i></h1>
+                <!-- Static floating label -->
+                <div id="tblData">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Firstname</th>
+                                <th>Lastname</th>
+                                <th>Mobile</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td id="tdFirstName"></td>
+                                <td id="tdLastName"></td>
+                                <td id="tdMobile"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <script>
+                $(document).ready(function () {
+                    $('#tdFirstName').text(localStorage.getItem('firstName'));
+                    $('#tdLastName').text(localStorage.getItem('lastName'));
+                    $('#tdMobile').text(localStorage.getItem('mobile'));
+                });
+            </script>
+        </div>
+    </div>
+</body>
+</html>

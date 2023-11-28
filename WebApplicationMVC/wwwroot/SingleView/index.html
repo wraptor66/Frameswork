@@ -212,6 +212,16 @@
                 <div style="width:100%;"><i style="color:white" class="fa-duotone fa-hat-wizard fa-2x" onclick="openPage('StartWorkflow');"></i></div>
                 <span style="width: 100%;font-size: 10px">Workflow Example</span>
             </div>
+            <div id="detailsForm" style="text-align: center; width: 120px; position: fixed; top: 250px; left: 50px; color: white">
+                <!--Frame(s)work favors simplicity. calling the openPage() from the onclick is easy enough. no need for obfuscation-->
+                <div style="width:100%;"><i style="color:white" class="fa-duotone fa-edit fa-2x" onclick="openPage('DetailsForm');"></i></div>
+                <span style="width: 100%;font-size: 10px">Details Form</span>
+            </div>
+            <div id="showDetails" style="text-align: center; width: 120px; position: fixed; top: 350px; left: 50px; color: white">
+                <!--Frame(s)work favors simplicity. calling the openPage() from the onclick is easy enough. no need for obfuscation-->
+                <div style="width:100%;"><i style="color:white" class="fa-duotone fa-eye fa-2x" onclick="openPage('ShowDetails');"></i></div>
+                <span style="width: 100%;font-size: 10px">Show Details</span>
+            </div>
         </div>
         <div style="float:left;width:250px;left:200px;position:absolute">
             <p>The shortcuts are the primary menu for the mobile device user interface.</p>
@@ -435,6 +445,17 @@
                 case "LoginCoding": {
                     frameObject.applicationName = 'LoginCoding';
                     frameObject.title = 'Explaining the Sample Project';
+                    break;
+                }
+                case "DetailsForm": {
+                    frameObject.applicationName = 'DetailsForm';
+                    frameObject.title = 'Details Form';
+                    break;
+                }
+                case "ShowDetails": {
+                    frameObject.applicationName = 'ShowDetails';
+                    frameObject.title = 'Show Details';
+                    break;
                 }
             }
             createFrame(frameObject);
@@ -476,7 +497,7 @@
             // create a button in minimize taskbar
             let abbreviatedTitle = (newFrame.title.length > 15) ? `${newFrame.title.substring(0, 12)}...` : newFrame.title;
             $('#minimizeBar').append(`<button onclick="$('#${newFrame.id}').show();" style="margin-top:5px; background-color: #f3f3f3"
-                    class="button button3" id="btn_${newFrame.id}"><i style="color:black" class="${newFrame.iconClass}"></i></button>`)
+                        class="button button3" id="btn_${newFrame.id}"><i style="color:black" class="${newFrame.iconClass}"></i></button>`)
             $(`#${newFrame.id}`).show();
             $(`#${newFrame.id}`).draggable();
         }
@@ -503,7 +524,6 @@
             requestObject.typename = UIEventMessage;
             Post2Server(requestObject, '');
         }
-
 
         $(function () {
             openPage('Login');

@@ -95,6 +95,36 @@ let Frame = function (FrameObject) {
             _Frame.iconClass = 'fa-sharp fa-solid fa-circle-info';
             break;
         }
+        case 'DetailsForm': {
+            iframeSrc = `componentpages/DetailsForm/DetailsForm.html`;
+            _Frame.autoOpen = false;
+            _Frame.width = window.innerWidth;
+            _Frame.height = window.innerHeight;
+            _Frame.title = FrameObject.title;
+            _Frame.resizable = true;
+            _Frame.modal = false;
+            _Frame.restoredHeight = 0;
+            _Frame.restoredWidth = 0;
+            _Frame.restoredTop = 0;
+            _Frame.restoredLeft = 0;
+            _Frame.iconClass = 'fa-sharp fa-solid fa-edit';
+            break;
+        }
+        case 'ShowDetails': {
+            iframeSrc = `componentpages/DetailsForm/ShowDetails.html`;
+            _Frame.autoOpen = false;
+            _Frame.width = window.innerWidth;
+            _Frame.height = window.innerHeight;
+            _Frame.title = FrameObject.title;
+            _Frame.resizable = true;
+            _Frame.modal = false;
+            _Frame.restoredHeight = 0;
+            _Frame.restoredWidth = 0;
+            _Frame.restoredTop = 0;
+            _Frame.restoredLeft = 0;
+            _Frame.iconClass = 'fa-sharp fa-solid fa-eye';
+            break;
+        }
     }
 
 
