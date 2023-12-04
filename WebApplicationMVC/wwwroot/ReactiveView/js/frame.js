@@ -108,7 +108,7 @@ let Frame = function (FrameObject) {
             _Frame.restoredTop = 0;
             _Frame.restoredLeft = 0;
             _Frame.iconClass = 'fa-duotone fa-circle-info';
-            break;
+            break
         }
         case 'aboutFrontEnd': {
             iframeSrc = `componentpages/documentation/aboutfrontend.html`;
