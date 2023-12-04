@@ -256,6 +256,9 @@
             </div>
             <hr />
             <div style="margin-left:20px" class="btn-group-vertical">
+                <button type="button" class="btn btn-outline-secondary" id="startButton" style="text-align:left;color:black"><i class="fa-solid fa-user"></i>&nbsp; Login</button>
+                <button type="button" class="btn btn-outline-secondary" id="startButton0" style="text-align:left;color:black"><i class="fa-duotone fa-address-card"></i>&nbsp; Workflow</button>
+                <button type="button" class="btn btn-outline-secondary" id="startButton1" style="text-align:left;color:black"><i class="fa-solid fa-newspaper"></i>&nbsp; Tiny MCE Editor</button>
                 <button type="button" class="btn btn-outline-secondary" id="startButton" style="text-align:left;color:black;width:300px"><i class="fa-solid fa-user"></i>&nbsp; Login</button>
                 <button type="button" class="btn btn-outline-secondary" id="startButton0" style="text-align: left; color: black; width: 300px"><i class="fa-duotone fa-address-card"></i>&nbsp; Workflow</button>
                 <button type="button" class="btn btn-outline-secondary" id="startButton1" style="text-align: left; color: black; width: 300px"><i class="fa-duotone fa-circle-info"></i>&nbsp; About Frame(s)work</button>
@@ -532,6 +535,13 @@
             if (position != null) {
                 frameObject.viewportPosition = position;
             }
+                    frameObject.title = 'Sample Project';
+                }
+                case "TinyMCEditor": {
+                    frameObject.applicationName = 'TinyMCEditor';
+                    frameObject.title = 'Tiny MCE Editor';
+                }
+            }
             createFrame(frameObject);
         }
 
@@ -582,6 +592,13 @@
         // Button
         $('#startButton1').click(function () {
             openPage('aboutframeswork','center');
+            ShowStart();
+            return false;
+        })
+
+        // Button
+        $('#startButton1').click(function () {
+            openPage('TinyMCEditor');
             ShowStart();
             return false;
         })
