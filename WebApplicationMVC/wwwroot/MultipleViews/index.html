@@ -593,7 +593,7 @@
 
             ///// create a button in minimize taskbar
             let abbreviatedTitle = (newFrame.title.length > 15) ? `${newFrame.title.substring(0, 12)}...` : newFrame.title;
-            $('#minimizeBar').append(`<button onclick="$('#${newFrame.id}').show();" style="margin-top:5px; background-color: #f3f3f3" class="button button3" id="btn_${newFrame.id}"><i style="color:black" class="${newFrame.iconClass}"></i></button>`)
+            $('#minimizeBar').append(`<button onclick="$('#${newFrame.id}').show();" style="margin-top:5px; background-color: #f3f3f3" class="button button3" id="btn_${newFrame.id}"><i style="color:black" class="${newFrame.iconClass} fa-2x"></i></button>`)
             $(`#${newFrame.id}`).show();
             $(`#${newFrame.id}`).draggable();
             setTimeout(function () {               
@@ -643,8 +643,7 @@
             $(`#${frame}`).remove();            
             $('#btn_' + frame).hide();
             $('#btn_' + frame).remove();
-            $('#btn_' + frame).button("destroy");
-  
+            $('#btn_' + frame).button("destroy"); 
         }
     </script>
 </body>

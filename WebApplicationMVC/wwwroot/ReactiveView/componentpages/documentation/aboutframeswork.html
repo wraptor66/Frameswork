@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+    <script src="../../js/jquery/blockui.js"></script>
+    <script src="https://kit.fontawesome.com/a4984d79d1.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <script>
+        /// Notice that each component  page establishes a 'state' object
+        /// This can be used for variable values scoped to the component
+        /// Application wide variables are accessible through the parent.get & parent.set
+        let state = {};
+
+        const showPosition = {};
+        showPosition.left = 'left';
+        showPosition.center = 'center';
+        showPosition.right = 'right';
+
+        $(function () {
+            if (!parent.getDesktopActive()) {
+                $('#divSingle').show();
+                $('#divDesktop').hide();
+            }
+        });
+    </script>
+    <!-- Bootstrap Form Input -->
+    <div class="container">
+        <div class="card mx-auto" style="width: 100%;">
+            <div class="card-header">
+                <img style="width:100%" src="../../content/images/techbackground.jpeg" />
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">About Frameswork</h5>
+                <p class="card-text">Frame(s)work was born out of the recognition that modern software development is sluggish and costly. As a senior software developer and architect, I saw the introduction of frameworks for web application development creating complexity where it is not required, and server programming using so many libraries and frameworks that the most basic activities are a complicated endeavour. All for what? </p>
+                <p class="card-text">On a side note... The dependency on so many frameworks starts with the slippery slope... Why write a solution myself when someone has already created a library? This may sound like a great idea but what developers don't understand is that they just created a dependency they will carry through the entire life of the application. This means tracking any security vulnerabilites being aware of any compatibility issues caused by upgrades.</p>
+                <p class="card-text">Frame(s)work provides a simplified methodology to develop & deliver modern applications. It provides a unique user interface design for an experience more akin to a Computer/Laptop and a simplified server communication/data exchange model. Frame(s)work is not meant to be another framework trying to abstract developers from the browser or forcing developers into numerous dependencies.</p>
+                <div id="divSingle" style="display:none;width:80%;margin-left:10%;text-align:center">
+                    <label style="width:100%" class="">More About Frame(s)work</label>
+                    <div style="width:100%" class="btn-group">
+                        <button style="width:100%" onclick="createFrameFE(showPosition.center)" class="btn btn-primary">About Frame(s)work Back-End</button>
+                        <button style="width:100%" onclick="createFrameBE(showPosition.center)" class="btn btn-primary">About Frame(s)work Front-End</button>
+                    </div>
+                </div>
+                <div id="divDesktop">
+                    <div id="divFrontEndDesktop" style="width:200px;float:left;text-align:center">
+                        <label class="">Learn about Front-End</label>
+                        <div style="width:170px" class="btn-group">
+                            <button onclick="createFrameFE(showPosition.left)" class="btn btn-primary"><i class="fa-solid fa-left-to-line"></i></button>
+                            <button onclick="createFrameFE(showPosition.center)" class="btn btn-primary"><i class="fa-solid fa-bars"></i></button>
+                            <button onclick="createFrameFE(showPosition.right)" class="btn btn-primary"><i class="fa-solid fa-right-to-line"></i></button>
+                        </div>
+                        <script>
+                            function createFrameFE(pos) {
+                                /// create the json object that is passed into the parent.createFrame method to launch next frame
+                                let frameObject = {};
+                                frameObject.applicationName = 'aboutFrontEnd';
+                                frameObject.title = 'About Frame(s)work Front-End';
+                                frameObject.viewportPosition = `${pos}`;
+                                parent.createFrame(frameObject);
+
+                            }
+                        </script>
+                    </div>
+                    <div id="divBackEndDesktop" style="width:200px;float:right;text-align:center">
+                        <label class="">Learn about Back-End</label>
+                        <div style="width:170px" class="btn-group">
+                            <button onclick="createFrameBE(showPosition.left)" class="btn btn-primary"><i class="fa-solid fa-left-to-line"></i></button>
+                            <button onclick="createFrameBE(showPosition.center)" class="btn btn-primary"><i class="fa-solid fa-bars"></i></button>
+                            <button onclick="createFrameBE(showPosition.right)" class="btn btn-primary"><i class="fa-solid fa-right-to-line"></i></button>
+                        </div>
+                        <script>
+                            function createFrameBE(pos) {
+                                /// create the json object that is passed into the parent.createFrame method to launch next frame
+                                let frameObject = {};
+                                frameObject.applicationName = 'aboutBackEnd';
+                                frameObject.title = 'About Frame(s)work Back-End';
+                                frameObject.viewportPosition = `${pos}`;
+                                parent.createFrame(frameObject);
+                            }
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
