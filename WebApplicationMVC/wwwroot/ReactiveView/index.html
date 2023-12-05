@@ -240,6 +240,11 @@
                 <div style="width:100%;"><i style="color:white" class="fa-duotone fa-circle-info fa-2x" onclick="openPage('AboutFrameswork');"></i></div>
                 <span style="width: 100%;font-size: 10px">About Frameswork</span>
             </div>
+            <div id="shortcutAbout" style="text-align: center; width: 120px; position: fixed; top: 250px; left: 50px; color: white">
+                <!--Frame(s)work favors simplicity. calling the openPage() from the onclick is easy enough. no need for obfuscation-->
+                <div style="width:100%;"><i style="color:white" class="fa-solid fa-newspaper fa-2x" onclick="openPage('TinyMCE');"></i></div>
+                <span style="width: 100%;font-size: 10px">Using Editor</span>
+            </div>
         </div>
         <!--<div style="float: left; width: 250px; left: 200px; top: 100px; position: absolute">
             <p>The index.html page provide the centralized processing and storage for the entire application.</p>
@@ -258,10 +263,8 @@
             <div style="margin-left:20px" class="btn-group-vertical">
                 <button type="button" class="btn btn-outline-secondary" id="startButton" style="text-align:left;color:black"><i class="fa-solid fa-user"></i>&nbsp; Login</button>
                 <button type="button" class="btn btn-outline-secondary" id="startButton0" style="text-align:left;color:black"><i class="fa-duotone fa-address-card"></i>&nbsp; Workflow</button>
-                <button type="button" class="btn btn-outline-secondary" id="startButton1" style="text-align:left;color:black"><i class="fa-solid fa-newspaper"></i>&nbsp; Tiny MCE Editor</button>
-                <button type="button" class="btn btn-outline-secondary" id="startButton" style="text-align:left;color:black;width:300px"><i class="fa-solid fa-user"></i>&nbsp; Login</button>
-                <button type="button" class="btn btn-outline-secondary" id="startButton0" style="text-align: left; color: black; width: 300px"><i class="fa-duotone fa-address-card"></i>&nbsp; Workflow</button>
                 <button type="button" class="btn btn-outline-secondary" id="startButton1" style="text-align: left; color: black; width: 300px"><i class="fa-duotone fa-circle-info"></i>&nbsp; About Frame(s)work</button>
+                <button type="button" class="btn btn-outline-secondary" id="startButton2" style="text-align:left;color:black"><i class="fa-solid fa-newspaper"></i>&nbsp; Tiny MCE Editor</button>
             </div>
         </div>
     </div>
@@ -530,12 +533,6 @@
                     frameObject.applicationName = 'AboutFrameswork';
                     frameObject.title = 'Explaining Frame(s)work';
                     break;
-                }
-            }
-            if (position != null) {
-                frameObject.viewportPosition = position;
-            }
-                    frameObject.title = 'Sample Project';
                 }
                 case "TinyMCEditor": {
                     frameObject.applicationName = 'TinyMCEditor';
