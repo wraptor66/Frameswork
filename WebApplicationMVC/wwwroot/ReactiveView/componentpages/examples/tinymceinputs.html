@@ -26,40 +26,66 @@
     <div class="container">
 
         <!-- Place the following <script> and <textarea> tags your HTML's <body> -->
-        <script>
-            $(function () {
-                tinymce.init({
-                    selector: "textarea",
-                    width: '80%',
-                    height: 400,
-                    plugins: [
-                        'advlist autolink lists link image charmap print preview hr anchor pagebreak',
-                        'searchreplace wordcount visualblocks visualchars code fullscreen',
-                        'insertdatetime media nonbreaking save table contextmenu directionality',
-                        'emoticons template paste textcolor colorpicker textpattern imagetools codesample'
-                    ],
-                    toolbar1: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
-                    toolbar2: 'print preview media | forecolor backcolor emoticons | codesample',
-                    paste_data_images: false,
-                    image_advtab: true,
-                    statusbar: true,
-                    menubar: true,
-                    valid_elements: '*[*]',
-                    rel_list: [{ title: 'Lightbox', value: 'lightbox' }],
-                    convert_urls: false,
-                    images_dataimg_filter: function (img) {
-                        return img.hasAttribute('internal-blob');
-                    },
-                    paste_preprocess: function (pl, o) {
-                        //tinyMCE.activeEditor.getContent();
-                        //tinyMCE.activeEditor.setContent(tinyMCE.activeEditor.getContent() + o.content);
-                    },
-                    paste_postprocess: function (pl, o) {
-                        tinyMCE.activeEditor.setContent(tinyMCE.activeEditor.getContent() + o.node.innerHTML);
+        <button type="button" class="btn btn-success" style="float:right;border-radius:5px;margin-top:5px;margin-left:200px" onclick="submitComment()">Submit</button>
 
-                    }
-                });
+        <script>
+            function removePX(val) {
+                return val.substring(0, val.length - 2);
+            }
+
+            $(function () {
+                try {
+                    $('#frm-comment').append(`CorrelationID: ${parent.GetSessionCorrelationID()}`);
+                    tinymce.init({
+                        selector: 'div#frm-comment',
+                        width: '100%',
+                        height: 570,
+                        plugins: [
+                            'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+                            'searchreplace wordcount visualblocks visualchars code fullscreen',
+                            'insertdatetime media nonbreaking save table contextmenu directionality',
+                            'emoticons template paste textcolor colorpicker textpattern imagetools codesample'
+                        ],
+                        toolbar1: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+                        toolbar2: 'print preview media | forecolor backcolor emoticons | codesample',
+                        image_advtab: true,
+                        statusbar: true,
+                        menubar: true,
+                        rel_list: [{ title: 'Lightbox', value: 'lightbox' }],
+                        images_dataimg_filter: function (img) {
+                            return img.hasAttribute('internal-blob');
+                        },
+                        paste_preprocess: async function (pl, o) {
+                            tinyMCE.activeEditor.setContent(tinyMCE.activeEditor.getContent({ format: 'raw' }) + o.content);
+                        },
+                        paste_postprocess: function (pl, o) {
+                            setTimeout(function () {
+                            }, 2000);
+                        }
+                    });
+                    setTimeout(100,
+                        function () {
+
+                        });
+                } catch (err) {
+                    alert(err);
+                }
             });
+
+
+            async function submitComment() {
+                const uploadFile = new FormData();
+                // JavaScript file-like object
+                uploadFile.append("FileName", "frameComment");
+                const blob = new Blob([tinymce.activeEditor.getContent({ format: 'raw' })], { type: "text" });
+                uploadFile.append("uploadFile", blob);
+                const response = await fetch("uploadapi", {
+                    method: "POST",
+                    body: uploadFile,
+                });
+                const returnObject = await response.json();
+                console.log(returnObject);
+            }
         </script>
         <textarea>
           Welcome to TinyMCE!
