@@ -110,6 +110,21 @@ let Frame = function (FrameObject) {
             _Frame.iconClass = 'fa-duotone fa-circle-info';
             break
         }
+        case 'TinyMCEditor': {
+            iframeSrc = `componentpages/examples/tinymceinputs.html`;
+            _Frame.autoOpen = false;
+            _Frame.width = 600;
+            _Frame.height = 800;
+            _Frame.title = FrameObject.title;
+            _Frame.resizable = true;
+            _Frame.modal = false;
+            _Frame.restoredHeight = 0;
+            _Frame.restoredWidth = 0;
+            _Frame.restoredTop = 0;
+            _Frame.restoredLeft = 0;
+            _Frame.iconClass = 'fa-solid fa-newspaper';
+            break
+        }
         case 'aboutFrontEnd': {
             iframeSrc = `componentpages/documentation/aboutfrontend.html`;
             _Frame.autoOpen = false;

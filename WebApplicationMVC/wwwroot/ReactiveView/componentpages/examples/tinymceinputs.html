@@ -35,11 +35,11 @@
 
             $(function () {
                 try {
-                    $('#frm-comment').append(`CorrelationID: ${parent.GetSessionCorrelationID()}`);
+                    //$('#editor').append(`CorrelationID: ${parent.GetSessionCorrelationID()}`);
                     tinymce.init({
-                        selector: 'div#frm-comment',
-                        width: '100%',
-                        height: 570,
+                        selector: 'textarea#editor',
+                        width: '90%',
+                        height: 400,
                         plugins: [
                             'advlist autolink lists link image charmap print preview hr anchor pagebreak',
                             'searchreplace wordcount visualblocks visualchars code fullscreen',
@@ -87,7 +87,7 @@
                 console.log(returnObject);
             }
         </script>
-        <textarea>
+        <textarea id="editor">
           Welcome to TinyMCE!
         </textarea>
     </div>

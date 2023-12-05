@@ -534,9 +534,10 @@
                     frameObject.title = 'Explaining Frame(s)work';
                     break;
                 }
-                case "TinyMCEditor": {
+                case "tinymceditor": {
                     frameObject.applicationName = 'TinyMCEditor';
                     frameObject.title = 'Tiny MCE Editor';
+                    break;
                 }
             }
             createFrame(frameObject);
@@ -594,7 +595,7 @@
         })
 
         // Button
-        $('#startButton1').click(function () {
+        $('#startButton2').click(function () {
             openPage('TinyMCEditor');
             ShowStart();
             return false;
